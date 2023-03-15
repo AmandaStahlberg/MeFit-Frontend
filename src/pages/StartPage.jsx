@@ -12,17 +12,10 @@ function StartPage() {
         {!keycloak.authenticated && (
           <button onClick={() => keycloak.login()}>Login</button>
         )}
-        {keycloak.authenticated && (
-          <button onClick={() => keycloak.logout()}>Logout</button>
-        )}
+      
       </section>
 
-      {keycloak.token && (
-        <div>
-          <h4>Token</h4>
-          <pre>{keycloak.token}</pre>
-        </div>
-      )}
+      
     </div>
   );
 }

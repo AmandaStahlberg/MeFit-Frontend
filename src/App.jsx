@@ -19,6 +19,7 @@ function App() {
           <main className="container">
             <Routes>
               <Route exact path="/dashboard" element={<Dashboard />} />
+              <Route path="/" element={<StartPage />} />
               <Route path="/goal" element={<Goal />} />
 
               <Route path="/program" element={<Program />} />
@@ -27,9 +28,9 @@ function App() {
               <Route
                 path="/profile"
                 element={
-                  <KeycloakRoute role={ROLES.User}>
+                  // <KeycloakRoute role={ROLES.User}>
                     <ProfilePage />
-                  </KeycloakRoute>
+                  // </KeycloakRoute>
                 }
               />
             </Routes>
