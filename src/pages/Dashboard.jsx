@@ -20,11 +20,11 @@ export default function Dashboard() {
       </header>
       <main className="h-3/4">
         <div className="grid grid-cols-3 gap-6 h-full">
-          <div className="col-span-2 bg-white shadow rounded-xl text-center p-4">
+          <div className="col-span-2 bg-white shadow-lg rounded-xl text-center p-4">
             Training programs
           </div>
           <div className="col-span-1 grid grid-rows-3 gap-6">
-            <div className="grid row-span-1 bg-white shadow rounded-xl place-content-center">
+            <div className="grid row-span-1 bg-white shadow-lg rounded-xl place-content-center">
               <p>
                 {dateState.toLocaleDateString("sv-SE", {
                   day: "numeric",
@@ -40,7 +40,7 @@ export default function Dashboard() {
                 })}
               </p>
             </div>
-            <div className="row-span-2 bg-white shadow rounded-xl text-center p-4">
+            <div className="row-span-2 bg-white shadow-lg rounded-xl text-center p-4">
               Goals
             </div>
           </div>
