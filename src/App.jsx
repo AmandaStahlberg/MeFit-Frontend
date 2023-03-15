@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import StartPage from "./pages/StartPage";
 import ProfilePage from "./pages/ProfilePage";
 import Navbar from "./components/navbar/Navbar";
@@ -40,6 +40,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<StartPage />} />
+        <Route path='*' element={<Navigate to='/' />} />
       </Routes>
       )}
     </BrowserRouter>
