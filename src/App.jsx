@@ -11,6 +11,7 @@ import Workout from "./pages/Workout";
 import keycloak from "./keycloak";
 
 function App() {
+  console.log(keycloak.authenticated)
   return (
     <BrowserRouter>
       {keycloak.authenticated ? (
@@ -18,8 +19,9 @@ function App() {
           <Navbar />
           <main className="container">
             <Routes>
-              <Route exact path="/dashboard" element={<Dashboard />} />
-              <Route path="/" element={<StartPage />} />
+              {/* <Route path="/" element={<Dashboard />} /> */}
+              <Route path="/" element={<Dashboard />} />
+
               <Route path="/goal" element={<Goal />} />
 
               <Route path="/program" element={<Program />} />
@@ -29,19 +31,18 @@ function App() {
                 path="/profile"
                 element={
                   // <KeycloakRoute role={ROLES.User}>
-                    <ProfilePage />
+                  <ProfilePage />
                   // </KeycloakRoute>
                 }
               />
             </Routes>
           </main>
-        </> 
+        </>
       ) : (
-
-      <Routes>
-        <Route path="/" element={<StartPage />} />
-        <Route path='*' element={<Navigate to='/' />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<StartPage />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
       )}
     </BrowserRouter>
   );
