@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import TimeAndDate from "../components/timeAndDate/TimeAndDate";
 import keycloak from "../keycloak";
 
 export default function Dashboard() {
-  const [dateState, setDateState] = useState(new Date());
-  useEffect(() => {
-    setInterval(() => setDateState(new Date()), 30000);
-  }, []);
   return (
     <div className="h-screen">
-      <header className="bg-white">
+      <header className="">
         <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
           {keycloak.tokenParsed && (
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
@@ -20,27 +17,14 @@ export default function Dashboard() {
       </header>
       <main className="h-3/4">
         <div className="grid grid-cols-3 gap-6 h-full">
-          <div className="col-span-2 bg-white shadow-lg rounded-xl text-center p-4">
+          <div className="col-span-2 bg-white shadow-md border border-stone-100 text-center p-4">
             Training programs
           </div>
           <div className="col-span-1 grid grid-rows-3 gap-6">
-            <div className="grid row-span-1 bg-white shadow-lg rounded-xl place-content-center">
-              <p>
-                {dateState.toLocaleDateString("sv-SE", {
-                  day: "numeric",
-                  month: "short",
-                  year: "numeric",
-                })}
-              </p>
-              <p>
-                {dateState.toLocaleString("sv-SE", {
-                  hour: "numeric",
-                  minute: "numeric",
-                  hour12: false,
-                })}
-              </p>
+            <div className="grid row-span-1 bg-white shadow-md border border-stone-100 place-content-center">
+              <TimeAndDate />
             </div>
-            <div className="row-span-2 bg-white shadow-lg rounded-xl text-center p-4">
+            <div className="row-span-2 bg-white shadow-md border border-stone-100 text-center p-4">
               Goals
             </div>
           </div>

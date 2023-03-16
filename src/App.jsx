@@ -11,13 +11,13 @@ import Workout from "./pages/Workout";
 import keycloak from "./keycloak";
 
 function App() {
-  console.log(keycloak.authenticated)
+  console.log(keycloak.authenticated);
   return (
     <BrowserRouter>
       {keycloak.authenticated ? (
         <>
           <Navbar />
-          <main className="container">
+          <main className="container bg-stone-50">
             <Routes>
               {/* <Route path="/" element={<Dashboard />} /> */}
               <Route path="/" element={<Dashboard />} />
