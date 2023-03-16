@@ -5,9 +5,9 @@ import Navbar from "./components/navbar/Navbar";
 import KeycloakRoute from "./routes/KeycloakRoute";
 import { ROLES } from "./const/roles";
 import Dashboard from "./pages/Dashboard";
-import Program from "./pages/Program";
-import Goal from "./pages/Goal";
-import Workout from "./pages/Workout";
+import Program from "./pages/ProgramPage";
+import Goal from "./pages/GoalPage";
+import Workout from "./pages/WorkoutPage";
 import keycloak from "./keycloak";
 
 function App() {
