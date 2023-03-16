@@ -25,7 +25,7 @@ export default function Goals() {
             </div>
             <input
               type="checkbox"
-              class=""
+              className=""
               checked={isAchieved}
               onChange={toggleAchieved}
             />

@@ -1,6 +1,7 @@
+import Users from "../components/users/Users";
 import keycloak from "../keycloak";
 
-export default function Users() {
+export default function User() {
   return (
     <>
       <div className="h-screen">
@@ -17,6 +18,7 @@ export default function Users() {
           <div className="grid grid-cols-1 gap-6 h-full">
             <div className="col-span-1 bg-white shadow-md border border-stone-100 text-center p-4">
               <h5 className="text-xl font-bold tracking-tight">Users</h5>
+              <Users />
             </div>
           </div>
         </main>

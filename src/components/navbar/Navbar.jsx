@@ -1,10 +1,9 @@
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import keycloak from "../../keycloak";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Disclosure, Menu } from "@headlessui/react";
 import {
   Bars3Icon,
-  BellIcon,
   XMarkIcon,
   ArrowLeftOnRectangleIcon,
   UserCircleIcon,
