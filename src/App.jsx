@@ -10,6 +10,7 @@ import Goal from "./pages/GoalPage";
 import Workout from "./pages/WorkoutPage";
 import keycloak from "./keycloak";
 import Exercise from "./pages/ExercisePage";
+import Users from "./pages/UsersPage";
 
 function App() {
   console.log(keycloak.authenticated);
@@ -29,6 +30,14 @@ function App() {
 
               <Route path="/workout" element={<Workout />} />
               <Route path="/exercise" element={<Exercise />} />
+              <Route
+                path="/users"
+                element={
+                  <KeycloakRoute role={ROLES.Admin}>
+                    <Users />
+                  </KeycloakRoute>
+                }
+              />
               <Route
                 path="/profile"
                 element={
