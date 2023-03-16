@@ -9,6 +9,7 @@ import Program from "./pages/ProgramPage";
 import Goal from "./pages/GoalPage";
 import Workout from "./pages/WorkoutPage";
 import keycloak from "./keycloak";
+import Exercise from "./pages/ExercisePage";
 
 function App() {
   console.log(keycloak.authenticated);
@@ -20,13 +21,14 @@ function App() {
           <main className="container bg-stone-50">
             <Routes>
               {/* <Route path="/" element={<Dashboard />} /> */}
-              <Route path="/" element={<Dashboard />} />
+              <Route exact path="/" element={<Dashboard />} />
 
               <Route path="/goal" element={<Goal />} />
 
               <Route path="/program" element={<Program />} />
 
               <Route path="/workout" element={<Workout />} />
+              <Route path="/exercise" element={<Exercise />} />
               <Route
                 path="/profile"
                 element={
@@ -40,7 +42,7 @@ function App() {
         </>
       ) : (
         <Routes>
-          <Route path="/" element={<StartPage />} />
+          <Route exact path="/" element={<StartPage />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       )}

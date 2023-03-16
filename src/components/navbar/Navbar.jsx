@@ -17,6 +17,7 @@ const navigation = [
   { name: "Goals", href: "/goal", current: true },
   { name: "Programs", href: "/program", current: true },
   { name: "Workouts", href: "/workout", current: true },
+  { name: "Exercises", href: "/exercise", current: true },
 ];
 
 function classNames(...classes) {

@@ -1,5 +1,6 @@
 import React from "react";
 import Goals from "../components/goals/Goals";
+import Programs from "../components/programs/Programs";
 import TimeAndDate from "../components/timeAndDate/TimeAndDate";
 import keycloak from "../keycloak";
 
@@ -19,13 +20,19 @@ export default function Dashboard() {
       <main className="h-3/4">
         <div className="grid grid-cols-3 gap-6 h-full">
           <div className="col-span-2 bg-white shadow-md border border-stone-100 text-center p-4">
-            Training programs
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+              Training programs
+            </h1>
+            <Programs />
           </div>
           <div className="col-span-1 grid grid-rows-3 gap-6">
             <div className="grid row-span-1 bg-white shadow-md border border-stone-100 place-content-center">
               <TimeAndDate />
             </div>
             <div className="row-span-2 bg-white shadow-md border border-stone-100 text-center p-4">
+              <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+                Goals
+              </h1>
               <Goals />
             </div>
           </div>

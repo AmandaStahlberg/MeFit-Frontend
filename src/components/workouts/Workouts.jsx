@@ -1,10 +1,10 @@
 import React from "react";
 
 const dummyData = [
-  { name: "Push up", type: "Functional training" },
-  { name: "Jumping jacks", type: "Cardio" },
-  { name: "Lunge", type: "Functional training" },
-  { name: "Crosstrainer", type: "Cardio" },
+  { name: "Biceps", type: "Strength" },
+  { name: "Triceps", type: "Strength" },
+  { name: "Condition", type: "Cardio" },
+  { name: "Lower legs", type: "Strength" },
 ];
 
 function Workouts() {
