@@ -49,7 +49,7 @@ export function CompletedGoals() {
         goal.achieved == true ? (
           <li
             key={key}
-            className="flex justify-between text-gray-300 rounded-md px-3 py-2 text-sm font-medium"
+            className="flex justify-between text-gray-700rounded-md px-3 py-2 text-sm font-medium"
           >
             <div className="text-left">
               <p>{goal.goal}</p>
