@@ -1,4 +1,5 @@
 import React from "react";
+import Goals from "../components/goals/Goals";
 import TimeAndDate from "../components/timeAndDate/TimeAndDate";
 import keycloak from "../keycloak";
 
@@ -25,7 +26,7 @@ export default function Dashboard() {
               <TimeAndDate />
             </div>
             <div className="row-span-2 bg-white shadow-md border border-stone-100 text-center p-4">
-              Goals
+              <Goals />
             </div>
           </div>
         </div>
