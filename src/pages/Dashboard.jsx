@@ -1,22 +1,71 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Goals from "../components/goals/Goals";
 import Programs from "../components/programs/Programs";
 import TimeAndDate from "../components/timeAndDate/TimeAndDate";
 import keycloak from "../keycloak";
 
 export default function Dashboard() {
-    const id = 1;
+    const [user, setUser] = useState(null);
+    const [userFetched, setUserFetched] = useState(false);
 
-    fetch(`http://localhost:8080/api/v1/users/${id}`, {
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${keycloak.token}`,
-            "Content-Type": "application/json",
-        },
-    })
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.error(error));
+    useEffect(() => {
+        if (!userFetched) {
+            fetchUser();
+        }
+    }, [userFetched]);
+
+    const fetchUser = () => {
+        fetch(`http://localhost:8080/api/v1/users/keycloak`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${keycloak.token}`,
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    handleNoUser();
+                    throw new Error("Response not OK");
+                }
+            })
+            .then((data) => {
+                console.log("test", data);
+                setUser(data);
+                setUserFetched(true);
+            })
+            .catch((error) => console.error(error));
+    };
+
+    const handleNoUser = () => {
+        console.log("fired");
+        if (!user) {
+            fetch(`http://localhost:8080/api/v1/users`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${keycloak.token}`,
+                    "Content-Type": "application/json",
+                },
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        console.log("res", response);
+                    } else {
+                        console.log("hej");
+                        throw new Error("Response not OK");
+                    }
+                })
+                .then((data) => {
+                    console.log(data);
+                    setUser(data);
+                    setUserFetched(true);
+                })
+                .catch((error) => console.error(error));
+        } else {
+            setUserFetched(true);
+        }
+    };
 
     return (
         <div className="h-screen">
