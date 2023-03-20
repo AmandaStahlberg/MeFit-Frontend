@@ -2,23 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import keycloak from "../../keycloak";
 
-const dummyData = [
-  {
-    name: "Push up",
-    description:
-      "Pushups are done in prone position with palms under shoulders, balls of feet on the ground. The body is pushed up and down with arms straightening and bending alternately, while keeping the back straight.",
-  },
-  {
-    name: "Chins",
-    description: "Hang in a bar and drag your self up and down.",
-  },
-  { name: "Bicep curls", description: "Curl a dumbbell up and down" },
-  { name: "Spinning", description: "Pedal spinning bike" },
-];
-
 function Exercises() {
-  // fetchExercises();
-
   const [exercises, setExercises] = useState([]);
   const [exercisesFetched, setExercisesFetched] = useState(false);
 
@@ -45,13 +29,11 @@ function Exercises() {
         }
       })
       .then((data) => {
-        console.log("test", data);
         setExercises(data);
         setExercisesFetched(true);
       })
       .catch((error) => console.error(error));
   };
-  // fetchExercises();
   return (
     <ul>
       {exercises.map((exercise, key) => (

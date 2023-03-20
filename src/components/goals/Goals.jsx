@@ -14,7 +14,7 @@ export default function Goals() {
   return (
     <ul>
       {dummyData.map((goal, key) =>
-        goal.achieved == false ? (
+        goal.achieved === false ? (
           <li
             key={key}
             className="flex justify-between focus:bg-gray-900 focus:text-white text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
@@ -46,7 +46,7 @@ export function CompletedGoals() {
   return (
     <ul>
       {dummyData.map((goal, key) =>
-        goal.achieved == true ? (
+        goal.achieved === true ? (
           <li
             key={key}
             className="flex justify-between text-gray-700rounded-md px-3 py-2 text-sm font-medium"
@@ -57,7 +57,7 @@ export function CompletedGoals() {
             </div>
             <input
               type="checkbox"
-              class=""
+              className=""
               checked={isAchieved}
               onChange={toggleAchieved}
             />

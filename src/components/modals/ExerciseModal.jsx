@@ -57,30 +57,30 @@ export default function ExercisesModal() {
                           Add exercise
                         </Dialog.Title>
                         <div className="mt-2 w-full max-w-xs">
-                          <form class="w-full">
-                            <div class="mb-4">
+                          <form className="w-full">
+                            <div className="mb-4">
                               <label
-                                class="block text-gray-700 text-sm font-bold mb-2"
-                                for="name"
+                                className="block text-gray-700 text-sm font-bold mb-2"
+                                htmlFor="name"
                               >
                                 Name
                               </label>
                               <input
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 id="name"
                                 type="text"
                                 placeholder="Biceps curls"
                               />
                             </div>
-                            <div class="mb-6">
+                            <div className="mb-6">
                               <label
-                                class="block text-gray-700 text-sm font-bold mb-2"
-                                for="description"
+                                className="block text-gray-700 text-sm font-bold mb-2"
+                                htmlFor="description"
                               >
                                 Description
                               </label>
                               <input
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 id="description"
                                 type="text"
                                 name="description"
