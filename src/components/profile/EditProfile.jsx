@@ -11,13 +11,15 @@ export default function EditUserProfile({
     const [name, setName] = useState(stored.name);
     const [height, setHeight] = useState(stored.height);
     const [weight, setWeight] = useState(stored.weight);
+    const [medicalConditions, setMedicalConditions]= useState(stored.medicalConditions)
+    const [disabilities, setDisabilities]=useState(stored.setDisabilities)
 
     function handleCancelClicked() {
         editCompleteCallback(null);
     }
 
     function handleSaveClicked() {
-        editCompleteCallback({username, name, height, weight});
+        editCompleteCallback({username, name, height, weight,medicalConditions, disabilities});
     }
 
 
@@ -50,13 +52,31 @@ export default function EditUserProfile({
                 onChange={e => setHeight(e.target.value)}
             />
         </div>
-        <div className="font-bold">            
-            <h2>Weight:</h2>
+        <div>            
+            <h2  className="font-bold">Weight:</h2>
             <input
                 className="rounded-md p-2 ring-1 ring-slate-200"
                 type='text'
                 value={weight}
                 onChange={e => setWeight(e.target.value)}
+            />
+        </div>
+        <div>            
+            <h2 className="font-bold">Medical Conditions:</h2>
+            <input
+                className="rounded-md p-2 ring-1 ring-slate-200"
+                type='text'
+                value={medicalConditions}
+                onChange={e => setMedicalConditions(e.target.value)}
+            />
+        </div>
+        <div >            
+            <h2  className="font-bold">Disabilities:</h2>
+            <input
+                className="rounded-md p-2 ring-1 ring-slate-200"
+                type='text'
+                value={disabilities}
+                onChange={e => setDisabilities(e.target.value)}
             />
         </div>
         <div className="flex-auto flex space-x-4">

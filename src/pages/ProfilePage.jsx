@@ -12,8 +12,10 @@ function ProfilePage() {
   const [name, setName] = useState(keycloak.tokenParsed.name);
   const [height, setHeight] = useState();
   const [weight, setWeight] = useState();
+  const [medicalConditions, setMedicalConditions] = useState();
+  const [disabilities, setDisabilities] = useState ();
 
-  const stored = { username, name, height, weight };
+  const stored = { username, name, height, weight, medicalConditions, disabilities };
 
   function handleEditComplete(result) {
     if (result != null) {
@@ -21,6 +23,8 @@ function ProfilePage() {
       setName(result.name);
       setHeight(result.height);
       setWeight(result.weight);
+      setMedicalConditions(result.medicalConditions);
+      setDisabilities(result.disabilities);
     }
     setEditMode(false);
   }

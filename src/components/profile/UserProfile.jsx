@@ -19,6 +19,12 @@ export default function EditUserProfile({
         <div className="flex justify-start">
             <h2 className="font-bold pr-4">Weight:</h2> {stored.weight}
         </div>
+        <div className="flex justify-start">
+            <h2 className="font-bold pr-4">Medical Conditions:</h2> {stored.medicalCondition}
+        </div>
+        <div className="flex justify-start">
+            <h2 className="font-bold pr-4">Disabilities:</h2> {stored.disabilities}
+        </div>
         <div>
             <button className="h-10 px-6 font-semibold rounded-md bg-gray-700 text-white"
                 onClick={startEditCallback}
