@@ -1,4 +1,5 @@
 import Exercises from "../components/exercises/Exercises";
+import ExercisesModal from "../components/modals/ExerciseModal";
 import keycloak from "../keycloak";
 
 export default function Exercise() {
@@ -20,6 +21,7 @@ export default function Exercise() {
               <h5 className="text-xl font-bold tracking-tight">Exercises</h5>
               <Exercises />
             </div>
+            <ExercisesModal />
           </div>
         </main>
       </div>

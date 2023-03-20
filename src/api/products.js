@@ -5,7 +5,6 @@ import axios from ".";
  * @returns { Promise<{ products: [], error: null | string }>} response
  */
 export const fetchProducts = async () => {
-
   const productsURL = "https://acc-products-fake.herokuapp.com/api/products";
 
   try {
@@ -14,8 +13,7 @@ export const fetchProducts = async () => {
       products: data,
       error: null,
     });
-  } 
-  catch (e) {
+  } catch (e) {
     return {
       products: [],
       error: e.message,
@@ -33,16 +31,15 @@ export const fetchProductById = async (productId) => {
 
   try {
     const { data, status } = await axios.get(productsURL + "/" + productId);
-    console.log(status)
+    console.log(status);
     return Promise.resolve({
       product: data,
       error: null,
     });
-  }
-  catch (e) {
+  } catch (e) {
     return {
       product: null,
       error: e.message,
     };
   }
-}
+};

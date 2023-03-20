@@ -1,3 +1,4 @@
+import WorkoutsModal from "../components/modals/WorkoutsModal";
 import Workouts from "../components/workouts/Workouts";
 import keycloak from "../keycloak";
 
@@ -20,6 +21,7 @@ export default function Workout() {
               <h5 className="text-xl font-bold tracking-tight">Workouts</h5>
               <Workouts />
             </div>
+            <WorkoutsModal />
           </div>
         </main>
       </div>
