@@ -1,3 +1,4 @@
+import ProgramsModal from "../components/modals/ProgramsModal";
 import Programs from "../components/programs/Programs";
 import keycloak from "../keycloak";
 
@@ -22,6 +23,7 @@ export default function Program() {
               </h5>
               <Programs />
             </div>
+            <ProgramsModal />
           </div>
         </main>
       </div>
