@@ -26,11 +26,11 @@ function ProfilePage() {
   }
 
   return (
-    <div>
+    <div className="h-screen">
+      <h1 className="text-3xl font-bold tracking-tight text-gray-900">My Profile</h1>
       <div>
         {editMode ? (
           <>
-            <h1>My Profile</h1>
             {keycloak.tokenParsed && (
               <EditUserProfile
                 stored={stored}
@@ -40,7 +40,6 @@ function ProfilePage() {
           </>
         ) : (
           <>
-            <h1>My Profile</h1>
             <UserProfile
               stored={stored}
               startEditCallback={() => setEditMode(true)}

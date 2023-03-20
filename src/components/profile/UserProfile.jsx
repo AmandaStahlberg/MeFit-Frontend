@@ -20,7 +20,7 @@ export default function EditUserProfile({
             <h2>Weight:</h2> {stored.weight}
         </div>
         <div>
-            <button
+            <button className="h-10 px-6 font-semibold rounded-md bg-gray-700 text-white"
                 onClick={startEditCallback}
             >Edit</button>
         </div>

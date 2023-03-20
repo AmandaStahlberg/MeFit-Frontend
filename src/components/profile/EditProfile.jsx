@@ -54,9 +54,9 @@ export default function EditUserProfile({
                 onChange={e => setWeight(e.target.value)}
             />
         </div>
-        <div>
-            <button onClick={handleSaveClicked}>Save</button>
-            <button onClick={handleCancelClicked}>Cancel</button>
+        <div className="flex-auto flex space-x-4">
+            <button className="h-10 px-6 font-semibold rounded-md bg-gray-700 text-white" onClick={handleSaveClicked}>Save</button>
+            <button className="h-10 px-6 font-semibold rounded-md bg-gray-700 text-white" onClick={handleCancelClicked}>Cancel</button>
         </div>
     </>
 }
