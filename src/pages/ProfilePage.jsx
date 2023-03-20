@@ -5,7 +5,6 @@ import keycloak from "../keycloak";
 
 function ProfilePage() {
   const [editMode, setEditMode] = useState(false);
-
   const [username, setUsername] = useState(
     keycloak.tokenParsed.preferred_username
   );
@@ -17,14 +16,26 @@ function ProfilePage() {
 
   const stored = { username, name, height, weight, medicalConditions, disabilities };
 
+  
+
   function handleEditComplete(result) {
     if (result != null) {
+      /*const response =  fetch(`http://localhost:8080/api/v1/profile/`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${keycloak.token}`,
+            },
+            body: JSON.stringify( result ),
+        });
+      if (response.ok){ */ 
       setUsername(result.username);
       setName(result.name);
       setHeight(result.height);
       setWeight(result.weight);
       setMedicalConditions(result.medicalConditions);
       setDisabilities(result.disabilities);
+     // }
     }
     setEditMode(false);
   }
@@ -52,7 +63,9 @@ function ProfilePage() {
               <div>
                 <h4>Token</h4>
                 <pre>{keycloak.token}</pre>
+                <p>Sub: { keycloak.tokenParsed.sub }</p>
               </div>
+
             )}
           </>
         )}
