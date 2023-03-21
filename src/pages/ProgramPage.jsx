@@ -1,5 +1,6 @@
 import ProgramsModal from "../components/modals/ProgramsModal";
 import Programs from "../components/programs/Programs";
+import { ROLES } from "../const/roles";
 import keycloak from "../keycloak";
 
 export default function Program() {
@@ -23,7 +24,7 @@ export default function Program() {
               </h5>
               <Programs />
             </div>
-            <ProgramsModal />
+            {keycloak.hasResourceRole(ROLES.Admin) && <ProgramsModal />}
           </div>
         </main>
       </div>

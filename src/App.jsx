@@ -34,9 +34,9 @@ function App() {
               <Route
                 path="/profile"
                 element={
-                  <KeycloakRoute role={ROLES.User}>
-                    <ProfilePage />
-                  </KeycloakRoute>
+                  // <KeycloakRoute role={ROLES.User}>
+                  <ProfilePage />
+                  /* </KeycloakRoute> */
                 }
               />
             </Routes>

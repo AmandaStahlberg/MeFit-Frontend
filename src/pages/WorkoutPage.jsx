@@ -1,5 +1,6 @@
 import WorkoutsModal from "../components/modals/WorkoutsModal";
 import Workouts from "../components/workouts/Workouts";
+import { ROLES } from "../const/roles";
 import keycloak from "../keycloak";
 
 export default function Workout() {
@@ -21,7 +22,7 @@ export default function Workout() {
               <h5 className="text-xl font-bold tracking-tight">Workouts</h5>
               <Workouts />
             </div>
-            <WorkoutsModal />
+            {keycloak.hasResourceRole(ROLES.Admin) && <WorkoutsModal />}
           </div>
         </main>
       </div>
