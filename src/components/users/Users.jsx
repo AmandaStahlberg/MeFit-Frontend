@@ -77,7 +77,6 @@ function Users() {
                   <span className="inline-block w-1/3 md:hidden font-bold">
                     Email Address
                   </span>
-                  {console.log(user)}
                 </td>
                 <td className="p-2 text-left block md:table-cell md:px-6 md:py-4 font-normal text-gray-900">
                   <span className="inline-block w-1/3 md:hidden font-bold">
