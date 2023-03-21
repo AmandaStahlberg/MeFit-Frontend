@@ -31,20 +31,13 @@ function App() {
 
               <Route path="/workout" element={<Workout />} />
               <Route path="/exercise" element={<Exercise />} />
-              <Route
-                path="/users"
-                element={
-                  <KeycloakRoute role={ROLES.Admin}>
-                    <User />
-                  </KeycloakRoute>
-                }
-              />
+              <Route path="/users" element={<User />} />
               <Route
                 path="/profile"
                 element={
-                  // <KeycloakRoute role={ROLES.User}>
-                  <ProfilePage />
-                  // </KeycloakRoute>
+                  <KeycloakRoute role={ROLES.User}>
+                    <ProfilePage />
+                  </KeycloakRoute>
                 }
               />
             </Routes>
