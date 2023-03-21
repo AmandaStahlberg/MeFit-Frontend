@@ -1,16 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Handle isAchieved state on each checkbox
 
 export default function Goals() {
   const [isAchieved, setIsAchieved] = useState(false);
-  const toggleAchieved = () => setIsAchieved((value) => !value);
-  const dummyData = [
+  const [dummyData, setDummyData] = useState([
     { goal: "Goal ett", achieved: isAchieved, endDate: "2023-03-31" },
     { goal: "Goal två", achieved: isAchieved, endDate: "2023-03-28" },
     { goal: "Goal tre", achieved: isAchieved, endDate: "2023-03-17" },
     { goal: "Goal fyra", achieved: isAchieved, endDate: "2023-04-10" },
-  ];
+  ]);
+  const toggleAchieved = (index) => {
+    const newGoals = [...dummyData];
+    newGoals[index].achieved = !newGoals[index].achieved;
+    setDummyData(newGoals);
+  };
+
+  useEffect(() => {
+    if (!isAchieved) {
+      // const newGoal = [...dummyData];
+      // console.log(newGoal, "new");
+      console.log(dummyData);
+    }
+  }, [dummyData]);
   return (
     <ul>
       {dummyData.map((goal, key) =>
@@ -27,7 +39,9 @@ export default function Goals() {
               type="checkbox"
               className=""
               checked={isAchieved}
-              onChange={toggleAchieved}
+              onChange={() => {
+                toggleAchieved(key);
+              }}
             />
           </li>
         ) : null
@@ -38,11 +52,23 @@ export default function Goals() {
 
 export function CompletedGoals() {
   const [isAchieved, setIsAchieved] = useState(true);
-  const toggleAchieved = () => setIsAchieved((value) => !value);
-  const dummyData = [
+  const [dummyData, setDummyData] = useState([
     { goal: "Completed Goal ett", achieved: isAchieved, endDate: "2023-03-04" },
     { goal: "Completed Goal två", achieved: isAchieved, endDate: "2023-03-07" },
-  ];
+  ]);
+  const toggleAchieved = (index) => {
+    const newGoals = [...dummyData];
+    newGoals[index].achieved = !newGoals[index].achieved;
+    setDummyData(newGoals);
+  };
+
+  // useEffect(() => {
+  //   if (isAchieved) {
+  //     const newGoal = [...dummyData];
+  //     console.log(newGoal);
+  //   }
+  // }, [isAchieved]);
+
   return (
     <ul>
       {dummyData.map((goal, key) =>
@@ -59,7 +85,9 @@ export function CompletedGoals() {
               type="checkbox"
               className=""
               checked={isAchieved}
-              onChange={toggleAchieved}
+              onChange={() => {
+                toggleAchieved(key);
+              }}
             />
           </li>
         ) : null
