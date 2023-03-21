@@ -2,33 +2,6 @@ import React, { useEffect, useState } from "react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import keycloak from "../../keycloak";
 
-const dummyUsers = [
-  {
-    Name: "Amanda Ståhlberg",
-    UserName: "AStahl",
-    Email: "email@email.com",
-    Role: "Admin",
-  },
-  {
-    Name: "Isabelle Tancred",
-    UserName: "ITan",
-    Email: "isabelle@email.com",
-    Role: "Contributer",
-  },
-  {
-    Name: "Alex Mamqvist",
-    UserName: "ALLE",
-    Email: "alle@email.com",
-    Role: "User",
-  },
-  {
-    Name: "Test Testsson",
-    UserName: "Tessy",
-    Email: "test@email.com",
-    Role: "User",
-  },
-];
-
 function Users() {
   const [users, setUsers] = useState([]);
   const [usersFetched, setUsersFetched] = useState(false);
