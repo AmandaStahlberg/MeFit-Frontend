@@ -42,7 +42,9 @@ function Exercises() {
         Authorization: `Bearer ${keycloak.token}`,
         "Content-Type": "application/json",
       },
-    }).then((res) => res);
+    }).then((res) => {
+      fetchExercises();
+    });
   };
   return (
     <ul>
