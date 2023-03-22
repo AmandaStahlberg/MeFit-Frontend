@@ -1,6 +1,5 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Navigate } from "react-router";
 import keycloak from "../../keycloak";
 
 export default function ExercisesModal() {
