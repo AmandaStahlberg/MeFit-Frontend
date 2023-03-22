@@ -53,7 +53,7 @@ function ProfilePage() {
 
   function handleEditComplete(result) {
     if (result != null) {
-      /*const response = fetch(`http://localhost:8080/api/v1/users/${3}`, {
+      /*const response = fetch(`http://localhost:8080/api/v1/users/3`, {
         //TODO byt ut mot user.id
         method: "PUT",
         headers: {
@@ -62,38 +62,38 @@ function ProfilePage() {
         },
         body: JSON.stringify({
           username: result.username, //TODO: borde på något sätt ändras/uppdateras i keycloak också
-          name: result.name,
+          //name: result.name,
+        }),
+      });*/
+
+      /*if (response.ok) {*/
+      console.log("connectade till api, la till nytt usernam");
+      const response2 = fetch(`http://localhost:8080/api/v1/profile/4`, {
+        //TODO byt ut mot user.id
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${keycloak.token}`,
+        },
+        body: JSON.stringify({
+          height: result.height,
+          weight: result.weight,
+          medicalConditions: result.medicalConditions,
+          disabilities: result.disabilities,
         }),
       });
-
-      if (response.ok) {
-        console.log("connectade till api, la till nytt usernam");
-        const response2 = fetch(`http://localhost:8080/api/v1/profile/${3}`, {
-          //TODO byt ut mot user.id
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${keycloak.token}`,
-          },
-          body: JSON.stringify({
-            height: result.height,
-            weight: result.weight,
-            medicalConditions: result.medicalConditions,
-            disabilities: result.disabilities,
-          }),
-        });
-        if (response2.ok) {
-          console.log("response 2 ok");*/
-      setUsername(result.username);
-      setName(result.name);
-      setHeight(result.height);
-      setWeight(result.weight);
-      setMedicalConditions(result.medicalConditions);
-      setDisabilities(result.disabilities);
+      if (response2.ok) {
+        console.log("response 2 ok");
+        setUsername(result.username);
+        setName(result.name);
+        setHeight(result.height);
+        setWeight(result.weight);
+        setMedicalConditions(result.medicalConditions);
+        setDisabilities(result.disabilities);
+      }
+      //}
+      setEditMode(false);
     }
-    // }
-    setEditMode(false);
-    //}
   }
 
   return (
@@ -144,4 +144,4 @@ function ProfilePage() {
 
 export default ProfilePage;
 
-//TODO: change email, change password, fitness level, request to become a contibutor
+//TODO: change email, change password, fitness level, request to become a contributor
