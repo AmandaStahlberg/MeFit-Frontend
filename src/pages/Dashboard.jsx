@@ -3,9 +3,14 @@ import Goals from "../components/goals/Goals";
 import Programs from "../components/programs/Programs";
 import TimeAndDate from "../components/timeAndDate/TimeAndDate";
 import keycloak from "../keycloak";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/reducers/user";
+import { useSelector } from "react-redux";
 
 export default function Dashboard() {
-    const [user, setUser] = useState({});
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.user);
+    console.log(user);
     const dataFetchedRef = useRef(false);
 
     useEffect(() => {
@@ -30,7 +35,7 @@ export default function Dashboard() {
                 }
             })
             .then((data) => {
-                setUser(data);
+                dispatch(setUser(data));
             })
             .catch((error) => console.error(error));
     };
@@ -45,7 +50,7 @@ export default function Dashboard() {
         })
             .then((response) => response.json())
             .then((data) => {
-                setUser(data);
+                dispatch(setUser(data));
             })
             .catch((error) => console.error(error));
     };
