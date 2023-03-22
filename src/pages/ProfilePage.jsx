@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import EditUserProfile from "../components/profile/EditProfile";
 import UserProfile from "../components/profile/UserProfile";
 import keycloak from "../keycloak";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/reducers/user";
+import { useSelector } from "react-redux";
 
 function ProfilePage() {
   const [editMode, setEditMode] = useState(false);
@@ -22,38 +25,12 @@ function ProfilePage() {
     medicalConditions,
     disabilities,
   };
-  const [user, setUser] = useState({});
-  const storedUser = user;
-  const dataFetchedRef = useRef(false);
-
-  useEffect(() => {
-    if (dataFetchedRef.current) return;
-    dataFetchedRef.current = true;
-    fetchUser();
-  }, []);
-
-  const fetchUser = () => {
-    fetch(`http://localhost:8080/api/v1/users/keycloak`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${keycloak.token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        setUser(data);
-      })
-      .catch((error) => console.error(error));
-  };
+  const user = useSelector((state) => state.user.user);
+  console.log(user);
 
   function handleEditComplete(result) {
     if (result != null) {
-      /*const response = fetch(`http://localhost:8080/api/v1/users/3`, {
+      const response = fetch(`http://localhost:8080/api/v1/users/3`, {
         //TODO byt ut mot user.id
         method: "PUT",
         headers: {
@@ -64,34 +41,34 @@ function ProfilePage() {
           username: result.username, //TODO: borde på något sätt ändras/uppdateras i keycloak också
           //name: result.name,
         }),
-      });*/
-
-      /*if (response.ok) {*/
-      console.log("connectade till api, la till nytt usernam");
-      const response2 = fetch(`http://localhost:8080/api/v1/profile/4`, {
-        //TODO byt ut mot user.id
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${keycloak.token}`,
-        },
-        body: JSON.stringify({
-          height: result.height,
-          weight: result.weight,
-          medicalConditions: result.medicalConditions,
-          disabilities: result.disabilities,
-        }),
       });
-      if (response2.ok) {
-        console.log("response 2 ok");
-        setUsername(result.username);
-        setName(result.name);
-        setHeight(result.height);
-        setWeight(result.weight);
-        setMedicalConditions(result.medicalConditions);
-        setDisabilities(result.disabilities);
+
+      if (response.ok) {
+        console.log("connectade till api, la till nytt usernam");
+        const response2 = fetch(`http://localhost:8080/api/v1/profile/4`, {
+          //TODO byt ut mot user.id
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${keycloak.token}`,
+          },
+          body: JSON.stringify({
+            height: result.height,
+            weight: result.weight,
+            medicalConditions: result.medicalConditions,
+            disabilities: result.disabilities,
+          }),
+        });
+        if (response2.ok) {
+          console.log("response 2 ok");
+          setUsername(result.username);
+          setName(result.name);
+          setHeight(result.height);
+          setWeight(result.weight);
+          setMedicalConditions(result.medicalConditions);
+          setDisabilities(result.disabilities);
+        }
       }
-      //}
       setEditMode(false);
     }
   }
