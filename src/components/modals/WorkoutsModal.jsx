@@ -4,7 +4,8 @@ import keycloak from "../../keycloak";
 
 export default function WorkoutsModal() {
   const [open, setOpen] = useState(false);
-  const [selectedExercise, setSelectedExercise] = useState([]);
+  const [selectedBg, setSelectedBg] = useState([]);
+  const [selectedExercises, setSelectedExercises] = useState([]);
 
   const cancelButtonRef = useRef(null);
 
@@ -39,26 +40,53 @@ export default function WorkoutsModal() {
       .catch((error) => console.error(error));
   };
 
+  const addWorkoutToDb = (workout) => {
+    fetch(`http://localhost:8080/api/v1/workouts`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${keycloak.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(workout),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data, "data");
+      })
+      .catch((error) => console.error(error));
+  };
+
   function handleSubmit(e) {
     e.preventDefault();
     const { name, type } = e.target.elements;
+
     const workout = {
       name: name.value,
       type: type.value,
+      exerciseIds: selectedExercises,
     };
-    console.log(workout);
-    // addExerciseToDb(exercise);
+    addWorkoutToDb(workout);
   }
 
-  const selectedWorkout = (index) => {
-    if (selectedExercise.includes(index)) {
-      setSelectedExercise(
-        selectedExercise.filter((exercise) => exercise !== index)
+  const selectedWorkout = (index, exercise) => {
+    if (selectedBg.includes(index)) {
+      setSelectedBg(selectedBg.filter((exercise) => exercise !== index));
+    } else {
+      setSelectedBg([...selectedBg, index]);
+    }
+
+    if (selectedExercises.includes(exercise.exercise_id)) {
+      // Exercise is already selected, remove it
+      setSelectedExercises(
+        selectedExercises.filter((id) => id !== exercise.exercise_id)
       );
     } else {
-      setSelectedExercise([...selectedExercise, index]);
+      // Exercise is not selected, add it
+      setSelectedExercises([...selectedExercises, exercise.exercise_id]);
     }
   };
+
+  console.log(selectedExercises, "ute");
 
   return (
     <>
@@ -149,12 +177,12 @@ export default function WorkoutsModal() {
                           <ul className="overflow-y-scroll max-h-60 mb-2">
                             {exercises.map((exercise, key) => (
                               <li
-                                onClick={() => selectedWorkout(key)}
+                                onClick={() => selectedWorkout(key, exercise)}
                                 key={key}
                                 className={
-                                  selectedExercise.includes(key)
-                                    ? "flex justify-between rounded-md px-1 py-1 text-sm font-medium  text-gray-700 bg-gray-900 text-white"
-                                    : "flex justify-between  text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-1 py-1 text-sm font-medium hover:cursor-pointer"
+                                  selectedBg.includes(key)
+                                    ? "flex justify-between rounded-md px-1 py-1 text-sm font-medium  text-gray-700 bg-gray-900 text-white hover:cursor-pointer"
+                                    : "flex justify-between text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-1 py-1 text-sm font-medium hover:cursor-pointer"
                                 }
                                 aria-current={exercise.id}
                               >
