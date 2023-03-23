@@ -5,19 +5,11 @@ import keycloak from "../../keycloak";
 export default function ProgramsModal() {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
+  const [selectedBg, setSelectedBg] = useState([]);
+  const [selectedWorkouts, setSelectedWorkouts] = useState([]);
 
   const [workouts, setWorkouts] = useState([]);
   const [workoutsFetched, setWorkoutsFetched] = useState(false);
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    const { name, category, workout } = e.target.elements;
-    console.log({
-      name: name.value,
-      category: category.value,
-      workout: workout.value,
-    });
-  }
 
   useEffect(() => {
     if (!workoutsFetched) {
@@ -37,7 +29,6 @@ export default function ProgramsModal() {
         if (response.ok) {
           return response.json();
         } else {
-          // handleNoUser();
           throw new Error("Response not OK");
         }
       })
@@ -47,6 +38,53 @@ export default function ProgramsModal() {
       })
       .catch((error) => console.error(error));
   };
+
+  const addProgramToDb = (program) => {
+    fetch(`http://localhost:8080/api/v1/programs`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${keycloak.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(program),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data, "data");
+      })
+      .catch((error) => console.error(error));
+  };
+  function handleSubmit(e) {
+    e.preventDefault();
+    const { name, category } = e.target.elements;
+    const program = {
+      name: name.value,
+      category: category.value,
+      workoutIds: selectedWorkouts,
+    };
+    console.log(program);
+    addProgramToDb(program);
+  }
+
+  const selectedWorkout = (index, program) => {
+    if (selectedBg.includes(index)) {
+      setSelectedBg(selectedBg.filter((program) => program !== index));
+    } else {
+      setSelectedBg([...selectedBg, index]);
+    }
+
+    if (selectedWorkouts.includes(program.workout_id)) {
+      // Workout is already selected, remove it
+      setSelectedWorkouts(
+        selectedWorkouts.filter((id) => id !== program.workout_id)
+      );
+    } else {
+      // Workout is not selected, add it
+      setSelectedWorkouts([...selectedWorkouts, program.workout_id]);
+    }
+  };
+  console.log(selectedWorkouts, "ute");
+
   return (
     <>
       <button
@@ -129,32 +167,31 @@ export default function ProgramsModal() {
                                 placeholder="Upper body"
                               />
                             </div>
-                            <div className="mb-6">
-                              <label
-                                className="block text-gray-700 text-sm font-bold mb-2"
-                                htmlFor="workout"
-                              >
-                                Add workout to program
-                              </label>
-                              <select
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="workout"
-                                type="select"
-                                name="workout"
-                                placeholder="Biceps"
-                              >
-                                <option value="workout">
-                                  Choose workout to program
-                                </option>
-                                {workouts.map((workout, index) => (
-                                  <option
-                                    key={index}
-                                    value={workout.workout_id}
+                            <div className="pl-4 pr-4">
+                              <h5 className="block text-gray-700 text-sm font-bold mb-2">
+                                Workouts
+                              </h5>
+                              <ul className="overflow-y-scroll max-h-60 mb-2">
+                                {workouts.map((program, key) => (
+                                  <li
+                                    onClick={() =>
+                                      selectedWorkout(key, program)
+                                    }
+                                    key={key}
+                                    className={
+                                      selectedBg.includes(key)
+                                        ? "flex justify-between rounded-md px-1 py-1 text-sm font-medium  text-gray-700 bg-gray-900 text-white hover:cursor-pointer"
+                                        : "flex justify-between text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-1 py-1 text-sm font-medium hover:cursor-pointer"
+                                    }
+                                    aria-current={program.id}
                                   >
-                                    {workout.name} ({workout.type})
-                                  </option>
+                                    <div className="text-left w-5/6">
+                                      <p>{program.name}</p>
+                                      <i>{program.type}</i>
+                                    </div>
+                                  </li>
                                 ))}
-                              </select>
+                              </ul>
                             </div>
 
                             {/* <button type="submit">klick</button> */}

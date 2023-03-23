@@ -86,8 +86,6 @@ export default function WorkoutsModal() {
     }
   };
 
-  console.log(selectedExercises, "ute");
-
   return (
     <>
       <button

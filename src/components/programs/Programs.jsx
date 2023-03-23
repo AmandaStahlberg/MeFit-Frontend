@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import keycloak from "../../keycloak";
+import { TrashIcon } from "@heroicons/react/24/outline";
 
 function Programs() {
   const [programs, setPrograms] = useState([]);
@@ -23,7 +24,6 @@ function Programs() {
         if (response.ok) {
           return response.json();
         } else {
-          // handleNoUser();
           throw new Error("Response not OK");
         }
       })
@@ -32,6 +32,17 @@ function Programs() {
         setProgramsFetched(true);
       })
       .catch((error) => console.error(error));
+  };
+  const deleteProgram = (id) => {
+    fetch("http://localhost:8080/api/v1/programs/" + id, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${keycloak.token}`,
+        "Content-Type": "application/json",
+      },
+    }).then((res) => {
+      fetchPrograms();
+    });
   };
   return (
     <ul>
@@ -44,6 +55,9 @@ function Programs() {
             <p>{program.name}</p>
             <i>Category: {program.category}</i>
           </div>
+          <button onClick={() => deleteProgram(program.program_id)}>
+            <TrashIcon className="h-4 w-4 hover:text-red-700 hover:cursor-pointer" />
+          </button>
         </li>
       ))}
     </ul>
