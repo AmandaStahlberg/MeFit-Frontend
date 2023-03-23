@@ -28,7 +28,7 @@ export default function ExercisesModal() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(setNewExercise(data));
+        console.log(data);
       })
       .catch((error) => console.error(error));
   };
