@@ -7,11 +7,16 @@ import { setUser } from "../redux/reducers/user";
 import { useSelector } from "react-redux";
 
 function ProfilePage() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user);
+  console.log(user);
+  console.log(user.user_id);
   const [editMode, setEditMode] = useState(false);
   const [username, setUsername] = useState(
     keycloak.tokenParsed.preferred_username
   );
   const [name, setName] = useState(keycloak.tokenParsed.name);
+  const [userId, serUserId] = useState(user.user_id);
   const [height, setHeight] = useState();
   const [weight, setWeight] = useState();
   const [medicalConditions, setMedicalConditions] = useState();
@@ -19,35 +24,25 @@ function ProfilePage() {
 
   const stored = {
     username,
+    userId,
     name,
     height,
     weight,
     medicalConditions,
     disabilities,
   };
-  const user = useSelector((state) => state.user.user);
-  console.log(user);
 
   function handleEditComplete(result) {
     if (result != null) {
-      const response = fetch(`http://localhost:8080/api/v1/users/3`, {
-        //TODO byt ut mot user.id
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${keycloak.token}`,
-        },
-        body: JSON.stringify({
-          username: result.username, //TODO: borde på något sätt ändras/uppdateras i keycloak också
-          //name: result.name,
-        }),
-      });
-
-      if (response.ok) {
-        console.log("connectade till api, la till nytt usernam");
-        const response2 = fetch(`http://localhost:8080/api/v1/profile/4`, {
-          //TODO byt ut mot user.id
-          method: "PUT",
+      setHeight(result.height);
+      setWeight(result.weight);
+      setMedicalConditions(result.medicalConditions);
+      setDisabilities(result.disabilities);
+      /*
+      const response = fetch(
+        `http://localhost:8080/api/v1/profile/${user.user_id}`,
+        {
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${keycloak.token}`,
@@ -57,20 +52,25 @@ function ProfilePage() {
             weight: result.weight,
             medicalConditions: result.medicalConditions,
             disabilities: result.disabilities,
+            user: {user_id: stored.userId}
           }),
-        });
-        if (response2.ok) {
-          console.log("response 2 ok");
-          setUsername(result.username);
-          setName(result.name);
-          setHeight(result.height);
-          setWeight(result.weight);
-          setMedicalConditions(result.medicalConditions);
-          setDisabilities(result.disabilities);
         }
-      }
-      setEditMode(false);
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to update profile");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          dispatch(setUser(data));
+          setEditMode(false);
+        })
+        .catch((error) => {
+          console.error(error);
+        });*/
     }
+    setEditMode(false);
   }
 
   return (

@@ -30,23 +30,11 @@ export default function EditUserProfile({ stored, editCompleteCallback }) {
   return (
     <>
       <div className="flex flex-col gap-6 ">
-        <div>
-          <h2 className="font-bold">Username:</h2>
-          <input
-            className="rounded-md p-2 ring-1 ring-slate-200"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+        <div className="flex justify-start">
+          <h2 className="font-bold pr-4">Username:</h2> {stored.username}
         </div>
-        <div>
-          <h2 className="font-bold">Name:</h2>
-          <input
-            className="rounded-md p-2 ring-1 ring-slate-200"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+        <div className="flex justify-start">
+          <h2 className="font-bold pr-4">Name:</h2> {stored.name}
         </div>
         <div>
           <h2 className="font-bold">Height:</h2>
