@@ -7,7 +7,6 @@ import { setUser } from "../redux/reducers/user";
 import { useSelector } from "react-redux";
 
 function ProfilePage() {
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
   console.log(user);
   console.log(user.user_id);
@@ -32,14 +31,14 @@ function ProfilePage() {
     disabilities,
   };
 
-  function handleEditComplete(result) {
+  async function handleEditComplete(result) {
     if (result != null) {
-      setHeight(result.height);
-      setWeight(result.weight);
-      setMedicalConditions(result.medicalConditions);
-      setDisabilities(result.disabilities);
-      /*
-      const response = fetch(
+      const newHeight = result.height;
+      const newWeight = result.weight;
+      const newMedicalConditions = result.medicalConditions;
+      const newDisabilities = result.disabilities;
+
+      const response = await fetch(
         `http://localhost:8080/api/v1/profile/${user.user_id}`,
         {
           method: "PATCH",
@@ -48,27 +47,20 @@ function ProfilePage() {
             Authorization: `Bearer ${keycloak.token}`,
           },
           body: JSON.stringify({
-            height: result.height,
-            weight: result.weight,
-            medicalConditions: result.medicalConditions,
-            disabilities: result.disabilities,
-            user: {user_id: stored.userId}
+            height: newHeight,
+            weight: newWeight,
+            medicalConditions: newMedicalConditions,
+            disabilities: newDisabilities,
           }),
         }
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to update profile");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          dispatch(setUser(data));
-          setEditMode(false);
-        })
-        .catch((error) => {
-          console.error(error);
-        });*/
+      );
+
+      if (response.ok) {
+        setHeight(newHeight);
+        setWeight(newWeight);
+        setMedicalConditions(newMedicalConditions);
+        setDisabilities(newDisabilities);
+      }
     }
     setEditMode(false);
   }
@@ -87,7 +79,7 @@ function ProfilePage() {
       <main className="h-3/4">
         <div className="grid grid-cols-1 gap-6 h-full">
           <div className="col-span-1 bg-white shadow-md border border-stone-100 text-center p-4">
-            <h5 className="text-xl font-bold tracking-tight">Exercises</h5>
+            <h5 className="text-xl font-bold tracking-tight mb-4">About me</h5>
             {editMode ? (
               <>
                 {keycloak.tokenParsed && (
