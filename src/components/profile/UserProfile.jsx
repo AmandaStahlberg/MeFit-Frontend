@@ -3,23 +3,23 @@ import { useState } from "react";
 export default function EditUserProfile({ stored, startEditCallback }) {
   return (
     <div className="flex flex-col gap-6 ">
-      <div className="flex justify-start">
+      <div>
         <h2 className="font-bold pr-4">Username:</h2> {stored.username}
       </div>
-      <div className="flex justify-start">
+      <div>
         <h2 className="font-bold pr-4">Name:</h2> {stored.name}
       </div>
-      <div className="flex justify-start">
+      <div>
         <h2 className="font-bold pr-4">Height:</h2> {stored.height}
       </div>
-      <div className="flex justify-start">
+      <div>
         <h2 className="font-bold pr-4">Weight:</h2> {stored.weight}
       </div>
-      <div className="flex justify-start">
+      <div>
         <h2 className="font-bold pr-4">MedicalConditions:</h2>
         {stored.medicalConditions}
       </div>
-      <div className="flex justify-start">
+      <div>
         <h2 className="font-bold pr-4">Disabilities:</h2> {stored.disabilities}
       </div>
       <div>

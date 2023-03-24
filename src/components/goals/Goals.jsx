@@ -1,83 +1,67 @@
-import React, { useEffect, useState } from "react";
-import keycloak from "../../keycloak";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import keycloak from "../../keycloak";
 
 export default function Goals() {
   const user = useSelector((state) => state.user.user);
-  console.log(user);
 
-  const [profile, setProfile] = useState([]);
-  const [isAchieved, setIsAchieved] = useState(false);
   const [goals, setGoals] = useState([]);
-  const [goalsFetched, setGoalsFetched] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [expandedGoalIndex, setExpandedGoalIndex] = useState(null);
 
-  // useEffect(() => {
-  //   if (!goalsFetched) {
-  //     fetchGoals();
-  //   }
-  // }, [goalsFetched]);
-
-  function toggleExpanded(index) {
-    setExpandedGoalIndex(index === expandedGoalIndex ? null : index);
-  }
-
-  const fetchGoals = () => {
-    fetch(`http://localhost:8080/api/v1/goal/list?ids=`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${keycloak.token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Response not OK");
-        }
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+    const fetchProfile = () => {
+      fetch(`http://localhost:8080/api/v1/profile/${user.user_id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${keycloak.token}`,
+          "Content-Type": "application/json",
+        },
       })
-      .then((data) => {
-        setGoals(data);
-        setGoalsFetched(true);
-        console.log(data);
-      })
-      .catch((error) => console.error(error));
-  };
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else if (response.status === 404) {
+            console.log("no profile found");
+          }
+        })
+        .then((data) => {
+          console.log("data", data.goals);
+          setGoals(data.goals);
+        })
+        .catch((error) => console.error(error));
+    };
+
+    fetchProfile();
+  }, [user]);
 
   return (
     <ul>
-      {goals.map((goal, key) => (
-        <li
-          onClick={() => toggleExpanded(key)}
-          key={key}
-          className="flex justify-between focus:bg-gray-900 focus:text-white text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium hover:cursor-pointer"
-        >
-          <div className="text-left w-5/6">
-            <p className="text-lg">{goal.start_date}</p>
-            <i className="text-base">{goal.type}</i>
-            {/* {expandedGoalIndex === key && (
-              <div className="pt-3 pb-3">
-                <b>Exercises:</b>
-                {goal.exercises.map((exercise, key) => (
-                  <div className="pb-2" key={key}>
-                    <p>{exercise.name}</p>
-                    <i>{exercise.description}</i>
+      {goals &&
+        goals.map((goal, index) => (
+          <li key={index}>
+            <div>
+              <h3>Goal {index + 1}</h3>
+              <p>Achieved: {goal.achieved ? "Yes" : "No"}</p>
+              <p>Start Date: {goal.startDate}</p>
+              <p>End Date: {goal.endDate}</p>
+              <div>
+                <h4>Programs:</h4>
+                {goal.programs.map((program, programIndex) => (
+                  <div key={programIndex}>
+                    <p>Name: {program.name}</p>
+                    <p>Category: {program.category}</p>
+                    <p>Workout IDs: {program.workoutIds.join(", ")}</p>
                   </div>
                 ))}
               </div>
-            )} */}
-          </div>
-          {/* <button onClick={() => deleteWorkout(goal.workout_id)}>
-            <TrashIcon className="h-4 w-4 hover:text-red-700 hover:cursor-pointer" />
-          </button> */}
-        </li>
-      ))}
+            </div>
+          </li>
+        ))}
     </ul>
   );
 }
-
 // export function CompletedGoals() {
 //   const [isAchieved, setIsAchieved] = useState(true);
 //   const [dummyData, setDummyData] = useState([
