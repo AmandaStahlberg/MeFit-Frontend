@@ -15,11 +15,43 @@ function ProfilePage() {
     keycloak.tokenParsed.preferred_username
   );
   const [name, setName] = useState(keycloak.tokenParsed.name);
-  const [userId, serUserId] = useState(user.user_id);
+  const [userId, setUserId] = useState(user.user_id);
   const [height, setHeight] = useState();
   const [weight, setWeight] = useState();
   const [medicalConditions, setMedicalConditions] = useState();
   const [disabilities, setDisabilities] = useState();
+  const [attributesFetched, setAttributesFetched] = useState(false);
+
+  useEffect(() => {
+    if (!attributesFetched) {
+      fetchAttributes();
+    }
+  }, [attributesFetched]);
+
+  const fetchAttributes = () => {
+    fetch(`http://localhost:8080/api/v1/profile/${user.user_id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${keycloak.token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Response not OK");
+        }
+      })
+      .then((data) => {
+        setHeight(data.height);
+        setWeight(data.weight);
+        setDisabilities(data.disabilities);
+        setMedicalConditions(data.medicalConditions);
+        setAttributesFetched(true);
+      })
+      .catch((error) => console.error(error));
+  };
 
   const stored = {
     username,
