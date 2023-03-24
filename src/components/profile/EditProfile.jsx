@@ -18,8 +18,6 @@ export default function EditUserProfile({ stored, editCompleteCallback }) {
 
   function handleSaveClicked() {
     editCompleteCallback({
-      username,
-      name,
       height,
       weight,
       medicalConditions,
@@ -30,26 +28,26 @@ export default function EditUserProfile({ stored, editCompleteCallback }) {
   return (
     <>
       <div className="flex flex-col gap-6 ">
-        <div className="flex justify-start">
+        <div>
           <h2 className="font-bold pr-4">Username:</h2> {stored.username}
         </div>
-        <div className="flex justify-start">
+        <div>
           <h2 className="font-bold pr-4">Name:</h2> {stored.name}
         </div>
         <div>
-          <h2 className="font-bold">Height:</h2>
+          <h2 className="font-bold">Height (in cm):</h2>
           <input
             className="rounded-md p-2 ring-1 ring-slate-200"
-            type="text"
+            type="number"
             value={height}
             onChange={(e) => setHeight(e.target.value)}
           />
         </div>
         <div>
-          <h2 className="font-bold">Weight:</h2>
+          <h2 className="font-bold">Weight (in kg):</h2>
           <input
             className="rounded-md p-2 ring-1 ring-slate-200"
-            type="text"
+            type="number"
             value={weight}
             onChange={(e) => setWeight(e.target.value)}
           />
