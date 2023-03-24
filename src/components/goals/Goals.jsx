@@ -6,6 +6,8 @@ export default function Goals() {
   const user = useSelector((state) => state.user.user);
 
   const [goals, setGoals] = useState([]);
+  const [expandedGoalIndex, setExpandedGoalIndex] = useState(null);
+  const [checkedPrograms, setCheckedPrograms] = useState(new Map());
 
   useEffect(() => {
     if (!user) {
@@ -36,30 +38,74 @@ export default function Goals() {
     fetchProfile();
   }, [user]);
 
+  function toggleExpanded(index) {
+    setExpandedGoalIndex(index === expandedGoalIndex ? null : index);
+  }
+
+  function handleProgramCheck(goalIndex, programIndex) {
+    const newCheckedPrograms = new Map(checkedPrograms);
+    const checkedProgramsForGoal =
+      newCheckedPrograms.get(goalIndex) || new Set();
+
+    if (checkedProgramsForGoal.has(programIndex)) {
+      checkedProgramsForGoal.delete(programIndex);
+    } else {
+      checkedProgramsForGoal.add(programIndex);
+    }
+    newCheckedPrograms.set(goalIndex, checkedProgramsForGoal);
+    setCheckedPrograms(newCheckedPrograms);
+  }
+
+  const programCompleted = () => {
+    console.log("hej");
+  };
+
   return (
-    <ul>
-      {goals &&
-        goals.map((goal, index) => (
-          <li key={index}>
-            <div>
-              <h3>Goal {index + 1}</h3>
-              <p>Achieved: {goal.achieved ? "Yes" : "No"}</p>
-              <p>Start Date: {goal.startDate}</p>
-              <p>End Date: {goal.endDate}</p>
-              <div>
-                <h4>Programs:</h4>
-                {goal.programs.map((program, programIndex) => (
-                  <div key={programIndex}>
-                    <p>Name: {program.name}</p>
-                    <p>Category: {program.category}</p>
-                    <p>Workout IDs: {program.workoutIds.join(", ")}</p>
+    <div>
+      <ul>
+        {goals &&
+          goals.map((goal, goalIndex) => (
+            <li key={goalIndex} className="flex justify-between">
+              <div className="text-left w-full">
+                <div
+                  className="focus:bg-gray-900 focus:text-white text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium hover:cursor-pointer"
+                  onClick={() => toggleExpanded(goalIndex)}
+                >
+                  <h3 className="text-lg">Goal {goalIndex + 1}</h3>
+                  <p>End Date: {goal.endDate}</p>
+                </div>
+                {expandedGoalIndex === goalIndex && (
+                  <div className="px-3 py-2 ">
+                    <h4 className="text-base">Programs:</h4>
+                    {goal.programs.map((program, programIndex) => (
+                      <div key={programIndex}>
+                        <p>Name: {program.name}</p>
+                        <i>Category: {program.category}</i>
+                        <input
+                          type="checkbox"
+                          checked={
+                            checkedPrograms.get(goalIndex)?.has(programIndex) ||
+                            false
+                          }
+                          onChange={() =>
+                            handleProgramCheck(goalIndex, programIndex)
+                          }
+                        />
+                        <p>Completed: {program.completed ? "Yes" : "No"}</p>
+                        {checkedPrograms.get(goalIndex)?.has(programIndex) && (
+                          <button onClick={programCompleted}>
+                            Claim reward
+                          </button>
+                        )}
+                      </div>
+                    ))}
                   </div>
-                ))}
+                )}
               </div>
-            </div>
-          </li>
-        ))}
-    </ul>
+            </li>
+          ))}
+      </ul>
+    </div>
   );
 }
 // export function CompletedGoals() {
