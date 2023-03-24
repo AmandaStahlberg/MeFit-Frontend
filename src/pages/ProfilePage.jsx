@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import EditUserProfile from "../components/profile/EditProfile";
 import UserProfile from "../components/profile/UserProfile";
 import keycloak from "../keycloak";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../redux/reducers/user";
-import { useSelector } from "react-redux";
+import { async } from "q";
 
 function ProfilePage() {
   const user = useSelector((state) => state.user.user);
@@ -15,6 +15,7 @@ function ProfilePage() {
     keycloak.tokenParsed.preferred_username
   );
   const [name, setName] = useState(keycloak.tokenParsed.name);
+  const [email, setEmail] = useState(keycloak.tokenParsed.email);
   const [userId, setUserId] = useState(user.user_id);
   const [height, setHeight] = useState();
   const [weight, setWeight] = useState();
@@ -55,6 +56,7 @@ function ProfilePage() {
 
   const stored = {
     username,
+    email,
     userId,
     name,
     height,

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import keycloak from "../../keycloak";
 
 export default function EditUserProfile({ stored, editCompleteCallback }) {
   console.log("Edit User Profile");
@@ -30,6 +31,9 @@ export default function EditUserProfile({ stored, editCompleteCallback }) {
       <div className="flex flex-col gap-6 ">
         <div>
           <h2 className="font-bold pr-4">Username:</h2> {stored.username}
+        </div>
+        <div>
+          <h2 className="font-bold pr-4">Email:</h2> {stored.email}
         </div>
         <div>
           <h2 className="font-bold pr-4">Name:</h2> {stored.name}
