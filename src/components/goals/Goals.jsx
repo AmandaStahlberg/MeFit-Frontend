@@ -3,61 +3,92 @@ import keycloak from "../../keycloak";
 import { useSelector } from "react-redux";
 
 export default function Goals() {
-  const user = useSelector((state) => state.user.user);
-  console.log(user);
+    const user = useSelector((state) => state.user.user);
 
-  const [profile, setProfile] = useState([]);
-  const [isAchieved, setIsAchieved] = useState(false);
-  const [goals, setGoals] = useState([]);
-  const [goalsFetched, setGoalsFetched] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [expandedGoalIndex, setExpandedGoalIndex] = useState(null);
+    const [profile, setProfile] = useState([]);
+    const [isAchieved, setIsAchieved] = useState(false);
+    const [goals, setGoals] = useState([]);
+    const [goalsFetched, setGoalsFetched] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [expandedGoalIndex, setExpandedGoalIndex] = useState(null);
+    const [goalIds, setGoalIds] = useState([]);
+    console.log("user", user);
+    console.log("ids", goalIds);
 
-  useEffect(() => {
-    if (!goalsFetched) {
-      fetchGoals();
-    }
-  }, [goalsFetched]);
-
-  function toggleExpanded(index) {
-    setExpandedGoalIndex(index === expandedGoalIndex ? null : index);
-  }
-
-  const fetchGoals = () => {
-    fetch(`http://localhost:8080/api/v1/goal/list?ids=`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${keycloak.token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Response not OK");
+    useEffect(() => {
+        if (!goalsFetched) {
+            fetchGoals();
         }
-      })
-      .then((data) => {
-        setGoals(data);
-        setGoalsFetched(true);
-        console.log(data);
-      })
-      .catch((error) => console.error(error));
-  };
+    }, [goalsFetched]);
 
-  return (
-    <ul>
-      {goals.map((goal, key) => (
-        <li
-          onClick={() => toggleExpanded(key)}
-          key={key}
-          className="flex justify-between focus:bg-gray-900 focus:text-white text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium hover:cursor-pointer"
-        >
-          <div className="text-left w-5/6">
-            <p className="text-lg">{goal.start_date}</p>
-            <i className="text-base">{goal.type}</i>
-            {/* {expandedGoalIndex === key && (
+    function toggleExpanded(index) {
+        setExpandedGoalIndex(index === expandedGoalIndex ? null : index);
+    }
+
+    useEffect(() => {
+        if (!user) {
+            return;
+        }
+        const fetchProfile = () => {
+            fetch(`http://localhost:8080/api/v1/profile/${user.user_id}`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${keycloak.token}`,
+                    "Content-Type": "application/json",
+                },
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else if (response.status === 404) {
+                        console.log("no profile found");
+                    }
+                })
+                .then((data) => {
+                    console.log("data", data);
+                    setGoalIds(data);
+                })
+                .catch((error) => console.error(error));
+        };
+
+        fetchProfile();
+    }, []);
+
+    const fetchGoals = () => {
+        fetch(`http://localhost:8080/api/v1/goal/list?ids=`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${keycloak.token}`,
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error("Response not OK");
+                }
+            })
+            .then((data) => {
+                setGoals(data);
+                setGoalsFetched(true);
+                console.log(data);
+            })
+            .catch((error) => console.error(error));
+    };
+
+    return (
+        <ul>
+            {goals.map((goal, key) => (
+                <li
+                    onClick={() => toggleExpanded(key)}
+                    key={key}
+                    className="flex justify-between focus:bg-gray-900 focus:text-white text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium hover:cursor-pointer"
+                >
+                    <div className="text-left w-5/6">
+                        <p className="text-lg">{goal.start_date}</p>
+                        <i className="text-base">{goal.type}</i>
+                        {/* {expandedGoalIndex === key && (
               <div className="pt-3 pb-3">
                 <b>Exercises:</b>
                 {goal.exercises.map((exercise, key) => (
@@ -68,14 +99,14 @@ export default function Goals() {
                 ))}
               </div>
             )} */}
-          </div>
-          {/* <button onClick={() => deleteWorkout(goal.workout_id)}>
+                    </div>
+                    {/* <button onClick={() => deleteWorkout(goal.workout_id)}>
             <TrashIcon className="h-4 w-4 hover:text-red-700 hover:cursor-pointer" />
           </button> */}
-        </li>
-      ))}
-    </ul>
-  );
+                </li>
+            ))}
+        </ul>
+    );
 }
 
 // export function CompletedGoals() {
