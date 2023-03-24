@@ -13,11 +13,11 @@ export default function Goals() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [expandedGoalIndex, setExpandedGoalIndex] = useState(null);
 
-  useEffect(() => {
-    if (!goalsFetched) {
-      fetchGoals();
-    }
-  }, [goalsFetched]);
+  // useEffect(() => {
+  //   if (!goalsFetched) {
+  //     fetchGoals();
+  //   }
+  // }, [goalsFetched]);
 
   function toggleExpanded(index) {
     setExpandedGoalIndex(index === expandedGoalIndex ? null : index);

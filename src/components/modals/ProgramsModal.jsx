@@ -54,6 +54,13 @@ export default function ProgramsModal() {
       })
       .catch((error) => console.error(error));
   };
+
+  const openModal = () => {
+    setOpen(true);
+    setSelectedWorkouts([]);
+    setSelectedBg([]);
+  };
+
   function handleSubmit(e) {
     e.preventDefault();
     const { name, category } = e.target.elements;
@@ -91,7 +98,7 @@ export default function ProgramsModal() {
         className="bg-slate-700 text-white active:bg-black  hover:bg-black
       font-bold px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={() => openModal()}
       >
         Add program
       </button>
