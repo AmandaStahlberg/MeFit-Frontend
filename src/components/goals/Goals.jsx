@@ -92,13 +92,11 @@ export default function Goals() {
                           }
                         />
                         <p>Completed: {program.completed ? "Yes" : "No"}</p>
-                        {checkedPrograms.get(goalIndex)?.has(programIndex) && (
-                          <button onClick={programCompleted}>
-                            Claim reward
-                          </button>
-                        )}
                       </div>
                     ))}
+                    {checkedPrograms.get(goalIndex)?.size > 0 && (
+                      <button onClick={programCompleted}>Claim reward</button>
+                    )}
                   </div>
                 )}
               </div>

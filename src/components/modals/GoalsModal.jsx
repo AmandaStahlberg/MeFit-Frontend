@@ -1,10 +1,12 @@
 import { Fragment, useRef, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import keycloak from "../../keycloak";
+import { useSelector } from "react-redux";
 
 export default function GoalsModal() {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
+  const user = useSelector((state) => state.user.user);
 
   const defaultDate = new Date();
 
@@ -70,10 +72,12 @@ export default function GoalsModal() {
     const goal = {
       startDate: startDate.value,
       endDate: endDate.value,
+      achieved: false,
       programs: selectedPrograms,
+      profile_id: user.user_id,
     };
     console.log(goal);
-    // addGoalToDb(goal);
+    addGoalToDb(goal);
   }
   const selectedProgram = (index, goal) => {
     if (selectedBg.includes(index)) {
@@ -82,6 +86,10 @@ export default function GoalsModal() {
       setSelectedBg([...selectedBg, index]);
     }
 
+    const programToAdd = {
+      program_id: goal.program_id,
+      completed: false,
+    };
     if (selectedPrograms.includes(goal.program_id)) {
       // Program is already selected, remove it
       setSelectedPrograms(
@@ -89,7 +97,7 @@ export default function GoalsModal() {
       );
     } else {
       // Program is not selected, add it
-      setSelectedPrograms([...selectedPrograms, goal.program_id]);
+      setSelectedPrograms([...selectedPrograms, programToAdd]);
     }
     console.log(selectedPrograms);
   };
