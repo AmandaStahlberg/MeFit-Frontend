@@ -20,7 +20,9 @@ export default function Goal() {
           <div className="col-span-1 bg-white shadow-md border border-stone-100 text-center p-4">
             <h5 className="text-xl font-bold tracking-tight">Goals</h5>
             <Goals />
-            <GoalsModal />
+            <div className="pt-8">
+              <GoalsModal />
+            </div>
           </div>
           <div className="col-span-1 bg-white shadow-md border border-stone-100 text-center p-4">
             <h5 className="text-xl font-bold tracking-tight">

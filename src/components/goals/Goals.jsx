@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import keycloak from "../../keycloak";
+import { TrashIcon } from "@heroicons/react/24/outline";
 
 export default function Goals() {
   const user = useSelector((state) => state.user.user);
@@ -8,6 +9,7 @@ export default function Goals() {
   const [goals, setGoals] = useState([]);
   const [expandedGoalIndex, setExpandedGoalIndex] = useState(null);
   const [checkedPrograms, setCheckedPrograms] = useState(new Map());
+  const [bgColorOnClick, setBgColorOnClick] = useState(false);
 
   useEffect(() => {
     if (!user) {
@@ -38,8 +40,22 @@ export default function Goals() {
     fetchProfile();
   }, [user]);
 
+  // const deleteGoal = (id) => {
+  //   fetch("http://localhost:8080/api/v1/goals/" + id, {
+  //     method: "DELETE",
+  //     headers: {
+  //       Authorization: `Bearer ${keycloak.token}`,
+  //       "Content-Type": "application/json",
+  //     },
+  //   }).then((res) => {
+  //     console.log(res);
+  //     // fetchProfile();
+  //   });
+  // };
+
   function toggleExpanded(index) {
     setExpandedGoalIndex(index === expandedGoalIndex ? null : index);
+    setBgColorOnClick(!bgColorOnClick);
   }
 
   function handleProgramCheck(goalIndex, programIndex) {
@@ -58,50 +74,83 @@ export default function Goals() {
 
   const programCompleted = () => {
     console.log("hej");
+    console.log(goals);
   };
 
   return (
     <div>
-      <ul>
+      <ul className="w-full">
         {goals &&
-          goals.map((goal, goalIndex) => (
-            <li key={goalIndex} className="flex justify-between">
-              <div className="text-left w-full">
-                <div
-                  className="focus:bg-gray-900 focus:text-white text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium hover:cursor-pointer"
-                  onClick={() => toggleExpanded(goalIndex)}
-                >
-                  <h3 className="text-lg">Goal {goalIndex + 1}</h3>
-                  <p>End Date: {goal.endDate}</p>
-                </div>
-                {expandedGoalIndex === goalIndex && (
-                  <div className="px-3 py-2 ">
-                    <h4 className="text-base">Programs:</h4>
-                    {goal.programs.map((program, programIndex) => (
-                      <div key={programIndex}>
-                        <p>Name: {program.name}</p>
-                        <i>Category: {program.category}</i>
-                        <input
-                          type="checkbox"
-                          checked={
-                            checkedPrograms.get(goalIndex)?.has(programIndex) ||
-                            false
-                          }
-                          onChange={() =>
-                            handleProgramCheck(goalIndex, programIndex)
-                          }
-                        />
-                        <p>Completed: {program.completed ? "Yes" : "No"}</p>
-                      </div>
-                    ))}
-                    {checkedPrograms.get(goalIndex)?.size > 0 && (
-                      <button onClick={programCompleted}>Claim reward</button>
-                    )}
+          goals.map((goal, goalIndex) =>
+            goal.achieved === false ? (
+              <li key={goalIndex} className="flex justify-between pt-1 py-0">
+                <div className="text-left w-full">
+                  <div
+                    className={
+                      bgColorOnClick
+                        ? "hover:bg-gray-600 text-white bg-gray-700 rounded-md px-3 py-2 text-sm font-medium hover:cursor-pointer"
+                        : "focus:bg-gray-900 focus:text-white text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium hover:cursor-pointer"
+                    }
+                    onClick={() => toggleExpanded(goalIndex)}
+                  >
+                    <h3 className="text-lg">Goal {goalIndex + 1}</h3>
+                    <p>End Date: {goal.endDate}</p>
                   </div>
-                )}
-              </div>
-            </li>
-          ))}
+                  {expandedGoalIndex === goalIndex && (
+                    <div className="px-3 pt-2 pb-5 border-2 rounded-b-md border-t-0">
+                      <h4 className="text-base">Programs:</h4>
+                      {goal.programs.map((program, programIndex) => (
+                        <>
+                          <div
+                            className="flex justify-between"
+                            key={programIndex}
+                          >
+                            <div>
+                              <p>Name: {program.name}</p>
+                              <i>Category: {program.category}</i>
+                            </div>
+                            <input
+                              className="accent-purple-500 focus:accent-purple-600 hover:cursor-pointer h-5 w-5 ml-4 text-right"
+                              type="checkbox"
+                              checked={
+                                checkedPrograms
+                                  .get(goalIndex)
+                                  ?.has(programIndex) || false
+                              }
+                              onChange={() =>
+                                handleProgramCheck(goalIndex, programIndex)
+                              }
+                            />
+                          </div>
+                          <p>Completed: {program.completed ? "Yes" : "No"}</p>
+                        </>
+                      ))}
+                      {checkedPrograms.get(goalIndex)?.size > 0 ? (
+                        <button
+                          className="bg-purple-500 text-white active:bg-purple-600  hover:bg-purple-600
+                        font-bold px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mt-2"
+                          onClick={programCompleted}
+                        >
+                          Complete
+                        </button>
+                      ) : (
+                        <button
+                          className="bg-purple-200 text-white 
+                        font-bold px-4 py-2 rounded shadow outline-none mt-2"
+                          disabled="true"
+                        >
+                          Complete
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
+                {/* <button onClick={() => deleteGoal(goal.goal_id)}>
+                <TrashIcon className="h-4 w-4 hover:text-red-700 hover:cursor-pointer" />
+              </button> */}
+              </li>
+            ) : null
+          )}
       </ul>
     </div>
   );

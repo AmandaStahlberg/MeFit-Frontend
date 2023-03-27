@@ -76,7 +76,6 @@ export default function GoalsModal() {
       programs: selectedPrograms,
       profile_id: user.user_id,
     };
-    console.log(goal);
     addGoalToDb(goal);
   }
   const selectedProgram = (index, goal) => {
@@ -90,6 +89,7 @@ export default function GoalsModal() {
       program_id: goal.program_id,
       completed: false,
     };
+
     if (selectedPrograms.includes(goal.program_id)) {
       // Program is already selected, remove it
       setSelectedPrograms(
