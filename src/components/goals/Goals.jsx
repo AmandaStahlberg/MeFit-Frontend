@@ -3,108 +3,163 @@ import { useSelector } from "react-redux";
 import keycloak from "../../keycloak";
 
 export default function Goals() {
-  const user = useSelector((state) => state.user.user);
-  const [profileId, setProfileId] = useState([]);
-  const [goals, setGoals] = useState([]);
-  const [expandedGoalIndex, setExpandedGoalIndex] = useState(null);
-  const [checkedPrograms, setCheckedPrograms] = useState(new Map());
+    const user = useSelector((state) => state.user.user);
+    const [profileId, setProfileId] = useState([]);
+    const [goals, setGoals] = useState([]);
+    const [expandedGoalIndex, setExpandedGoalIndex] = useState(null);
+    const [checkedPrograms, setCheckedPrograms] = useState(new Map());
 
-  useEffect(() => {
-    if (!user) {
-      return;
+    useEffect(() => {
+        if (!user) {
+            return;
+        }
+        const fetchProfile = () => {
+            fetch(`http://localhost:8080/api/v1/profile/${user.user_id}`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${keycloak.token}`,
+                    "Content-Type": "application/json",
+                },
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else if (response.status === 404) {
+                        console.log("no profile found");
+                    }
+                })
+                .then((data) => {
+                    setProfileId(data.profile_id);
+                    setGoals(data.goals);
+                })
+                .catch((error) => console.error(error));
+        };
+
+        fetchProfile();
+    }, [user]);
+
+    function toggleExpanded(index) {
+        setExpandedGoalIndex(index === expandedGoalIndex ? null : index);
     }
-    const fetchProfile = () => {
-      fetch(`http://localhost:8080/api/v1/profile/${user.user_id}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${keycloak.token}`,
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else if (response.status === 404) {
-            console.log("no profile found");
-          }
-        })
-        .then((data) => {
-          setProfileId(data.profile_id);
-          setGoals(data.goals);
-        })
-        .catch((error) => console.error(error));
+
+    function handleProgramCheck(goalIndex, programIndex) {
+        const newCheckedPrograms = new Map(checkedPrograms);
+        const checkedProgramsForGoal =
+            newCheckedPrograms.get(goalIndex) || new Set();
+
+        if (checkedProgramsForGoal.has(programIndex)) {
+            checkedProgramsForGoal.delete(programIndex);
+        } else {
+            checkedProgramsForGoal.add(programIndex);
+        }
+        newCheckedPrograms.set(goalIndex, checkedProgramsForGoal);
+        setCheckedPrograms(newCheckedPrograms);
+    }
+
+    async function updateProgramCompleted(goalId, programId, completed) {
+        try {
+            const response = await fetch(
+                "http://localhost:8080/api/v1/goal-program-associations",
+                {
+                    method: "PUT",
+                    headers: {
+                        Authorization: `Bearer ${keycloak.token}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ goalId, programId, completed }),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    "Failed to update the program completed status"
+                );
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const programCompleted = () => {
+        const checkedProgramsForGoal = checkedPrograms.get(expandedGoalIndex);
+        if (checkedProgramsForGoal) {
+            checkedProgramsForGoal.forEach((programIndex) => {
+                const program = goals[expandedGoalIndex].programs[programIndex];
+                updateProgramCompleted(
+                    goals[expandedGoalIndex].goal_id,
+                    program.program_id,
+                    !program.completed
+                );
+            });
+        }
     };
 
-    fetchProfile();
-  }, [user]);
-
-  function toggleExpanded(index) {
-    setExpandedGoalIndex(index === expandedGoalIndex ? null : index);
-  }
-
-  function handleProgramCheck(goalIndex, programIndex) {
-    const newCheckedPrograms = new Map(checkedPrograms);
-    const checkedProgramsForGoal =
-      newCheckedPrograms.get(goalIndex) || new Set();
-
-    if (checkedProgramsForGoal.has(programIndex)) {
-      checkedProgramsForGoal.delete(programIndex);
-    } else {
-      checkedProgramsForGoal.add(programIndex);
-    }
-    newCheckedPrograms.set(goalIndex, checkedProgramsForGoal);
-    setCheckedPrograms(newCheckedPrograms);
-  }
-
-  const programCompleted = () => {
-    console.log("hej");
-  };
-
-  return (
-    <div>
-      <ul>
-        {goals &&
-          goals.map((goal, goalIndex) => (
-            <li key={goalIndex} className="flex justify-between">
-              <div className="text-left w-full">
-                <div
-                  className="focus:bg-gray-900 focus:text-white text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium hover:cursor-pointer"
-                  onClick={() => toggleExpanded(goalIndex)}
-                >
-                  <h3 className="text-lg">Goal {goalIndex + 1}</h3>
-                  <p>End Date: {goal.endDate}</p>
-                </div>
-                {expandedGoalIndex === goalIndex && (
-                  <div className="px-3 py-2 ">
-                    <h4 className="text-base">Programs:</h4>
-                    {goal.programs.map((program, programIndex) => (
-                      <div key={programIndex}>
-                        <p>Name: {program.name}</p>
-                        <i>Category: {program.category}</i>
-                        <input
-                          type="checkbox"
-                          checked={
-                            checkedPrograms.get(goalIndex)?.has(programIndex) ||
-                            false
-                          }
-                          onChange={() =>
-                            handleProgramCheck(goalIndex, programIndex)
-                          }
-                        />
-                        <p>Completed: {program.completed ? "Yes" : "No"}</p>
-                      </div>
+    return (
+        <div>
+            <ul>
+                {goals &&
+                    goals.map((goal, goalIndex) => (
+                        <li key={goalIndex} className="flex justify-between">
+                            <div className="text-left w-full">
+                                <div
+                                    className="focus:bg-gray-900 focus:text-white text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium hover:cursor-pointer"
+                                    onClick={() => toggleExpanded(goalIndex)}
+                                >
+                                    <h3 className="text-lg">
+                                        Goal {goalIndex + 1}
+                                    </h3>
+                                    <p>End Date: {goal.endDate}</p>
+                                </div>
+                                {expandedGoalIndex === goalIndex && (
+                                    <div className="px-3 py-2 ">
+                                        <h4 className="text-base">Programs:</h4>
+                                        {goal.programs.map(
+                                            (program, programIndex) => (
+                                                <div key={programIndex}>
+                                                    <p>Name: {program.name}</p>
+                                                    <i>
+                                                        Category:{" "}
+                                                        {program.category}
+                                                    </i>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={
+                                                            checkedPrograms
+                                                                .get(goalIndex)
+                                                                ?.has(
+                                                                    programIndex
+                                                                ) || false
+                                                        }
+                                                        onChange={() =>
+                                                            handleProgramCheck(
+                                                                goalIndex,
+                                                                programIndex
+                                                            )
+                                                        }
+                                                    />
+                                                    <p>
+                                                        Completed:{" "}
+                                                        {program.completed
+                                                            ? "Yes"
+                                                            : "No"}
+                                                    </p>
+                                                </div>
+                                            )
+                                        )}
+                                        {checkedPrograms.get(goalIndex)?.size >
+                                            0 && (
+                                            <button onClick={programCompleted}>
+                                                Claim reward
+                                            </button>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        </li>
                     ))}
-                    {checkedPrograms.get(goalIndex)?.size > 0 && (
-                      <button onClick={programCompleted}>Claim reward</button>
-                    )}
-                  </div>
-                )}
-              </div>
-            </li>
-          ))}
-      </ul>
-    </div>
-  );
+            </ul>
+        </div>
+    );
 }
 // export function CompletedGoals() {
 //   const [isAchieved, setIsAchieved] = useState(true);
