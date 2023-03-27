@@ -7,13 +7,16 @@ export default function EditUserProfile({ stored, startEditCallback }) {
         <h2 className="font-bold pr-4">Username:</h2> {stored.username}
       </div>
       <div>
+        <h2 className="font-bold pr-4">Email:</h2> {stored.email}
+      </div>
+      <div>
         <h2 className="font-bold pr-4">Name:</h2> {stored.name}
       </div>
       <div>
-        <h2 className="font-bold pr-4">Height:</h2> {stored.height}
+        <h2 className="font-bold pr-4">Height:</h2> {stored.height} cm
       </div>
       <div>
-        <h2 className="font-bold pr-4">Weight:</h2> {stored.weight}
+        <h2 className="font-bold pr-4">Weight:</h2> {stored.weight} kg
       </div>
       <div>
         <h2 className="font-bold pr-4">MedicalConditions:</h2>

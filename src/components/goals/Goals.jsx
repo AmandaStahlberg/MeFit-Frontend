@@ -4,7 +4,7 @@ import keycloak from "../../keycloak";
 
 export default function Goals() {
   const user = useSelector((state) => state.user.user);
-
+  const [profileId, setProfileId] = useState([]);
   const [goals, setGoals] = useState([]);
   const [expandedGoalIndex, setExpandedGoalIndex] = useState(null);
   const [checkedPrograms, setCheckedPrograms] = useState(new Map());
@@ -29,7 +29,7 @@ export default function Goals() {
           }
         })
         .then((data) => {
-          console.log("data", data.goals);
+          setProfileId(data.profile_id);
           setGoals(data.goals);
         })
         .catch((error) => console.error(error));
