@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { TrashIcon } from "@heroicons/react/24/outline";
 import keycloak from "../../keycloak";
+import RolesModal from "../modals/RolesModal";
 
 function Users() {
   const [users, setUsers] = useState([]);
   const [usersFetched, setUsersFetched] = useState(false);
+  const [selectedRole, setSelectedRole] = useState("");
 
   useEffect(() => {
     if (!usersFetched) {
@@ -82,9 +84,9 @@ function Users() {
                   <span className="inline-block w-1/3 md:hidden font-bold">
                     Role
                   </span>
-                  {user.isAdmin === true
+                  {user.admin === true
                     ? "Admin"
-                    : user.isContributor === true
+                    : user.contributor === true
                     ? "Contributor"
                     : "User"}
                 </td>
@@ -95,9 +97,7 @@ function Users() {
                   <button className="hover:text-red-600 pr-4">
                     <TrashIcon className="h-6 w-6" />
                   </button>
-                  <button className="hover:text-blue-600 ">
-                    <PencilIcon className="h-6 w-6" />
-                  </button>
+                  <RolesModal />
                 </td>
               </tr>
             </tbody>
