@@ -28,7 +28,7 @@ export default function Goal() {
             <h5 className="text-xl font-bold tracking-tight">
               Completed goals
             </h5>
-            {/* <CompletedGoals /> */}
+            <CompletedGoals />
           </div>
         </div>
       </main>
