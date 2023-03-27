@@ -76,6 +76,7 @@ export default function Goals() {
     console.log("hej");
     console.log(goals);
   };
+  console.log("hej");
 
   return (
     <div>
