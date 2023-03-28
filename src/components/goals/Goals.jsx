@@ -40,24 +40,6 @@ export default function Goals() {
     fetchProfile();
   }, [user]);
 
-  // function toggleExpanded(index) {
-  //   setExpandedGoalIndex(index === expandedGoalIndex ? null : index);
-  // }
-
-  // function handleProgramCheck(goalIndex, programIndex) {
-  //   const newCheckedPrograms = new Map(checkedPrograms);
-  //   const checkedProgramsForGoal =
-  //     newCheckedPrograms.get(goalIndex) || new Set();
-
-  //   if (checkedProgramsForGoal.has(programIndex)) {
-  //     checkedProgramsForGoal.delete(programIndex);
-  //   } else {
-  //     checkedProgramsForGoal.add(programIndex);
-  //   }
-  //   newCheckedPrograms.set(goalIndex, checkedProgramsForGoal);
-  //   setCheckedPrograms(newCheckedPrograms);
-  // }
-
   async function updateProgramCompleted(goalId, programId, completed) {
     try {
       const response = await fetch(
@@ -154,11 +136,8 @@ export default function Goals() {
                     <div className="px-3 pt-2 pb-5 border-2 rounded-b-md border-t-0">
                       <h4 className="text-base">Programs:</h4>
                       {goal.programs.map((program, programIndex) => (
-                        <>
-                          <div
-                            className="flex justify-between"
-                            key={programIndex}
-                          >
+                        <div key={programIndex}>
+                          <div className="flex justify-between">
                             <div>
                               <p>Name: {program.name}</p>
                               <i>Category: {program.category}</i>
@@ -183,7 +162,7 @@ export default function Goals() {
                           <p className="font-bold">
                             {program.completed ? "Completed" : "Uncompleted"}
                           </p>
-                        </>
+                        </div>
                       ))}
 
                       {checkedPrograms.get(goalIndex)?.size > 0 ? (

@@ -22,6 +22,7 @@ function App() {
           <main className="container bg-stone-50">
             <Routes>
               {/* <Route path="/" element={<Dashboard />} /> */}
+
               <Route exact path="/" element={<Dashboard />} />
 
               <Route path="/goal" element={<Goal />} />
