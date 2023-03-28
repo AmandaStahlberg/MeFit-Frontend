@@ -9,7 +9,7 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
 
-import Logo from "../../logo-mefit.png";
+import Logo from "../../tets.png";
 import { ROLES } from "../../const/roles";
 
 const navigation = [

@@ -50,6 +50,7 @@ function Programs() {
       fetchPrograms();
     });
   };
+
   return (
     <ul>
       {programs.map((program, key) => (
@@ -73,11 +74,12 @@ function Programs() {
               </div>
             )} */}
           </div>
-          {keycloak.hasResourceRole(ROLES.Admin) && (
+          {keycloak.hasResourceRole(ROLES.Admin) &&
+          keycloak.hasResourceRole(ROLES.Contributor) ? (
             <button onClick={() => deleteProgram(program.program_id)}>
               <TrashIcon className="h-4 w-4 hover:text-red-700 hover:cursor-pointer" />
             </button>
-          )}
+          ) : null}
         </li>
       ))}
     </ul>
