@@ -3,29 +3,37 @@ import { Dialog, Transition } from "@headlessui/react";
 import keycloak from "../../keycloak";
 import { PencilIcon } from "@heroicons/react/24/outline";
 
-export default function RolesModal() {
+export default function RolesModal(props) {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
 
   function handleSubmit(e) {
     e.preventDefault();
-    const role = e.target.elements;
-    const newRole = {
-      name: role.value,
-    };
-    addExerciseToDb(newRole);
-    //Det här är inte correct, behöver user id tror jag
+    const newRole = e.target.elements.roles.value;
+    let role = null;
+    if (newRole === "admin") {
+      role = { admin: true };
+    } else if (newRole === "contributor") {
+      role = { admin: false, contributor: true };
+    } else {
+      role = { admin: false, contributor: false, user: true };
+    }
+    if (role !== null) {
+      console.log(role);
+      addExerciseToDb(role);
+      props.setReload(false);
+    }
   }
 
   const addExerciseToDb = (newRole) => {
-    fetch(`http://localhost:8080/api/v1/users`, {
-      //borde specifiera ID
+    fetch(`http://localhost:8080/api/v1/users/${props.user.user_id}`, {
+      // specifiera ID, kolla endpoints
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${keycloak.token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newRole),
+      body: JSON.stringify(newRole), //probably not correct
     })
       .then((response) => response.json())
       .then((data) => {
@@ -82,7 +90,7 @@ export default function RolesModal() {
                             as="h3"
                             className="text-base font-semibold leading-6 text-gray-900"
                           >
-                            Chose a new role for "insert User":
+                            Chose a new role for {props.user.username}:
                           </Dialog.Title>
                           <div className="mt-2 w-full max-w-xs">
                             <div className="mb-4">

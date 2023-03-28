@@ -24,6 +24,7 @@ function Users() {
     })
       .then((response) => {
         if (response.ok) {
+          console.log("fetched users");
           return response.json();
         } else {
           // handleNoUser();
@@ -74,11 +75,11 @@ function Users() {
                   <span className="inline-block w-1/3 md:hidden font-bold">
                     Name
                   </span>
+                  {user.firstName} {user.lastName}
                 </td>
                 <td className="p-2 text-left block md:table-cell md:px-6 md:py-4 font-normal text-gray-900">
-                  <span className="inline-block w-1/3 md:hidden font-bold">
-                    Email Address
-                  </span>
+                  <span className="inline-block w-1/3 md:hidden font-bold"></span>
+                  {user.email}
                 </td>
                 <td className="p-2 text-left block md:table-cell md:px-6 md:py-4 font-normal text-gray-900">
                   <span className="inline-block w-1/3 md:hidden font-bold">
@@ -97,7 +98,7 @@ function Users() {
                   <button className="hover:text-red-600 pr-4">
                     <TrashIcon className="h-6 w-6" />
                   </button>
-                  <RolesModal />
+                  <RolesModal user={user} setReload={setUsersFetched} />
                 </td>
               </tr>
             </tbody>
