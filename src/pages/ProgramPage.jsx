@@ -2,32 +2,83 @@ import ProgramsModal from "../components/modals/ProgramsModal";
 import Programs from "../components/programs/Programs";
 import { ROLES } from "../const/roles";
 import keycloak from "../keycloak";
+import React, { useEffect, useState } from "react";
 
 export default function Program() {
-  return (
-    <>
-      <div className="h-screen">
-        <header className="">
-          <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
-            {keycloak.tokenParsed && (
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-                {keycloak.tokenParsed.name}, training programs
-              </h1>
-            )}
-          </div>
-        </header>
-        <main className="h-3/4">
-          <div className="grid grid-cols-1 gap-6 h-full">
-            <div className="col-span-1 bg-white shadow-md border border-stone-100 text-center p-4">
-              <h5 className="text-xl font-bold tracking-tight">
-                Training programs
-              </h5>
-              <Programs />
+    const [programsFetched, setProgramsFetched] = useState(false);
+    const [programs, setPrograms] = useState([]);
+
+    useEffect(() => {
+        if (!programsFetched) {
+            fetchPrograms();
+        }
+    }, [programsFetched]);
+
+    const fetchPrograms = () => {
+        fetch(`http://localhost:8080/api/v1/programs`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${keycloak.token}`,
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error("Response not OK");
+                }
+            })
+            .then((data) => {
+                setPrograms(data);
+                setProgramsFetched(true);
+            })
+            .catch((error) => console.error(error));
+    };
+    const deleteProgram = (id) => {
+        fetch("http://localhost:8080/api/v1/programs/" + id, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${keycloak.token}`,
+                "Content-Type": "application/json",
+            },
+        }).then((res) => {
+            fetchPrograms();
+        });
+    };
+
+    return (
+        <>
+            <div className="h-screen">
+                <header className="">
+                    <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
+                        {keycloak.tokenParsed && (
+                            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+                                {keycloak.tokenParsed.name}, training programs
+                            </h1>
+                        )}
+                    </div>
+                </header>
+                <main className="h-3/4">
+                    <div className="grid grid-cols-1 gap-6 h-full">
+                        <div className="col-span-1 bg-white shadow-md border border-stone-100 text-center p-4">
+                            <h5 className="text-xl font-bold tracking-tight">
+                                Training programs
+                            </h5>
+                            <Programs
+                                programs={programs}
+                                deleteProgram={deleteProgram}
+                            />
+                        </div>
+                        {keycloak.hasResourceRole(ROLES.Admin) && (
+                            <ProgramsModal
+                                programs={programs}
+                                setPrograms={setPrograms}
+                            />
+                        )}
+                    </div>
+                </main>
             </div>
-            {keycloak.hasResourceRole(ROLES.Admin) && <ProgramsModal />}
-          </div>
-        </main>
-      </div>
-    </>
-  );
+        </>
+    );
 }
