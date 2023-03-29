@@ -20,12 +20,11 @@ export default function RolesModal(props) {
     }
     if (role !== null) {
       console.log(role);
-      addExerciseToDb(role);
-      props.setReload(false);
+      addRoleToDb(role);
     }
   }
 
-  const addExerciseToDb = (newRole) => {
+  const addRoleToDb = (newRole) => {
     fetch(`http://localhost:8080/api/v1/users/${props.user.user_id}`, {
       // specifiera ID, kolla endpoints
       method: "PATCH",
@@ -37,7 +36,7 @@ export default function RolesModal(props) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        props.setReload(false);
       })
       .catch((error) => console.error(error));
   };
