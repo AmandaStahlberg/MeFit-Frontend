@@ -93,7 +93,7 @@ function Programs() {
                       <i>Type: {workout.type}</i>
                       <p className="pt-2 font-bold pl-3">Exercises:</p>
                       {workout.exercises.map((exercise, index) => (
-                        <li className="pl-3 py-0">
+                        <li key={index} className="pl-3 py-0">
                           <p className="font-bold">{exercise.name}</p>
                           <i>{exercise.description}</i>
                         </li>
