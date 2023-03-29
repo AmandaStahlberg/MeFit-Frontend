@@ -115,12 +115,12 @@ export default function Goals() {
           goals.map((goal, goalIndex) =>
             goal.achieved === false ? (
               <li key={goalIndex} className="flex justify-between pt-1 py-0">
-                <div className="text-left w-full">
+                <div className="text-left w-full mb-2">
                   <div
                     className={
                       expandedGoalIndex === goalIndex
-                        ? "hover:bg-gray-600 text-white bg-gray-700 rounded-md px-3 py-2 text-sm font-medium hover:cursor-pointer flex justify-between"
-                        : "flex justify-between focus:bg-gray-900 focus:text-white text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium hover:cursor-pointer"
+                        ? "hover:bg-gray-600 border-2 rounded-b-md border-t-0 border-gray-700 text-white bg-gray-700 rounded-md px-3 py-2 text-sm font-medium hover:cursor-pointer flex justify-between"
+                        : "flex justify-between border-2 rounded-b-md border-t-0 focus:bg-gray-900 focus:text-white text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium hover:cursor-pointer"
                     }
                     onClick={() => toggleExpanded(goalIndex)}
                   >
@@ -128,9 +128,15 @@ export default function Goals() {
                       <h3 className="text-lg">Goal {goalIndex + 1}</h3>
                       <p>End Date: {goal.endDate}</p>
                     </div>
-                    <p>
-                      {goal.completedPrograms}/{goal.totalPrograms}
-                    </p>
+
+                    {goal.completedPrograms === goal.totalPrograms ? (
+                      <div className="flex items-end">
+                        <p className="font-bold">COMPLETED</p>
+                        <SparklesIcon className="h-8 text-yellow-400" />
+                      </div>
+                    ) : (
+                      goal.completedPrograms + " / " + goal.totalPrograms
+                    )}
                   </div>
                   {expandedGoalIndex === goalIndex && (
                     <div className="px-3 pt-2 pb-5 border-2 rounded-b-md border-t-0">
