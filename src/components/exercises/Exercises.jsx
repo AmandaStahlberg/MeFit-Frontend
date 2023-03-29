@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import keycloak from "../../keycloak";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { ROLES } from "../../const/roles";
+import EditExercisesModal from "../modals/EditExerciseModal";
 
 function Exercises() {
   const [exercises, setExercises] = useState([]);
@@ -31,6 +32,8 @@ function Exercises() {
       })
       .then((data) => {
         setExercises(data);
+      })
+      .then(() => {
         setExercisesFetched(true);
       })
       .catch((error) => console.error(error));
@@ -44,7 +47,7 @@ function Exercises() {
         "Content-Type": "application/json",
       },
     }).then((res) => {
-      fetchExercises();
+      setExercisesFetched(false);
     });
   };
   return (
@@ -59,9 +62,15 @@ function Exercises() {
             <i>Description: {exercise.description}</i>
           </div>
           {keycloak.hasResourceRole(ROLES.Admin) && (
-            <button onClick={() => deleteExercise(exercise.exercise_id)}>
-              <TrashIcon className="h-4 w-4 hover:text-red-700 hover:cursor-pointer" />
-            </button>
+            <div>
+              <button onClick={() => deleteExercise(exercise.exercise_id)}>
+                <TrashIcon className="h-6 w-6 hover:text-red-700 hover:cursor-pointer" />
+              </button>
+              <EditExercisesModal
+                exercise={exercise}
+                setReload={setExercisesFetched}
+              />
+            </div>
           )}
         </li>
       ))}
