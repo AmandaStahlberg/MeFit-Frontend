@@ -124,9 +124,13 @@ export default function Goals() {
                     }
                     onClick={() => toggleExpanded(goalIndex)}
                   >
-                    <div>
+                    <div
+                      className="flex flex-col
+                    "
+                    >
                       <h3 className="text-lg">Goal {goalIndex + 1}</h3>
-                      <p>End Date: {goal.endDate}</p>
+                      <i>Start: {goal.startDate}</i>
+                      <i>End: {goal.endDate}</i>
                     </div>
 
                     {goal.completedPrograms === goal.totalPrograms ? (

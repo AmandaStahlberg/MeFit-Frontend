@@ -90,17 +90,17 @@ export default function GoalsModal() {
       completed: false,
     };
 
-    if (selectedPrograms.includes(goal.program_id)) {
+    if (selectedPrograms.some((p) => p.program_id === goal.program_id)) {
       // Program is already selected, remove it
       setSelectedPrograms(
-        selectedPrograms.filter((id) => id !== goal.program_id)
+        selectedPrograms.filter((p) => p.program_id !== goal.program_id)
       );
     } else {
       // Program is not selected, add it
       setSelectedPrograms([...selectedPrograms, programToAdd]);
     }
-    console.log(selectedPrograms);
   };
+  console.log(selectedPrograms, "hej");
 
   return (
     <>
