@@ -74,6 +74,8 @@ export default function Exercise() {
                             <ExercisesModal
                                 exercises={exercises}
                                 setExercises={setExercises}
+                                exercisesFetched={exercisesFetched}
+                                setExercisesFetched={setExercisesFetched}
                             />
                         )}
                     </div>
