@@ -29,7 +29,7 @@ function Exercises({ exercises, deleteExercise, setExercisesFetched }) {
                                 </button>
                                 <EditExercisesModal
                                     exercise={exercise}
-                                    setReload={setExercisesFetched}
+                                    setExercisesFetched={setExercisesFetched}
                                 />
                             </div>
                         )}
