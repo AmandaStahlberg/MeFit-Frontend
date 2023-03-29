@@ -19,27 +19,20 @@ function Exercises({ exercises, deleteExercise, setExercisesFetched }) {
                             <i>Description: {exercise.description}</i>
                         </div>
                         {keycloak.hasResourceRole(ROLES.Admin) && (
-                            <button
-                                onClick={() =>
-                                    deleteExercise(exercise.exercise_id)
-                                }
-                            >
-                                <TrashIcon className="h-4 w-4 hover:text-red-700 hover:cursor-pointer" />
-                            </button>
+                            <div>
+                                <button
+                                    onClick={() =>
+                                        deleteExercise(exercise.exercise_id)
+                                    }
+                                >
+                                    <TrashIcon className="h-6 w-6 hover:text-red-700 hover:cursor-pointer" />
+                                </button>
+                                <EditExercisesModal
+                                    exercise={exercise}
+                                    setReload={setExercisesFetched}
+                                />
+                            </div>
                         )}
-                        <div>
-                            <button
-                                onClick={() =>
-                                    deleteExercise(exercise.exercise_id)
-                                }
-                            >
-                                <TrashIcon className="h-6 w-6 hover:text-red-700 hover:cursor-pointer" />
-                            </button>
-                            <EditExercisesModal
-                                exercise={exercise}
-                                setReload={setExercisesFetched}
-                            />
-                        </div>
                     </li>
                 ))}
         </ul>
