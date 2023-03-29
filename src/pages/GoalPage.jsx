@@ -16,7 +16,7 @@ export default function Goal() {
         </div>
       </header>
       <main className="h-3/4">
-        <div className="grid grid-cols-2 gap-6 h-full">
+        <div className="grid grid-cols-1 gap-6 h-full">
           <div className="col-span-1 bg-white shadow-md border border-stone-100 text-center p-4">
             <h5 className="text-xl font-bold tracking-tight">Goals</h5>
             <Goals />
@@ -24,12 +24,12 @@ export default function Goal() {
               <GoalsModal />
             </div>
           </div>
-          <div className="col-span-1 bg-white shadow-md border border-stone-100 text-center p-4">
+          {/* <div className="col-span-1 bg-white shadow-md border border-stone-100 text-center p-4">
             <h5 className="text-xl font-bold tracking-tight">
               Completed goals
             </h5>
             <CompletedGoals />
-          </div>
+          </div> */}
         </div>
       </main>
     </div>

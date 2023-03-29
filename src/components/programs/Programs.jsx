@@ -62,10 +62,11 @@ function Programs() {
           <div className="text-left w-5/6">
             <p className="text-lg">{program.name}</p>
             <i className="text-base">Category: {program.category}</i>
+
             {/* {expandedWorkoutIndex === key && (
               <div className="pt-3 pb-3">
                 <b>Workouts:</b>
-                {program.programs.map((workout, key) => (
+                {program.workouts.map((workout, key) => (
                   <div className="pb-2" key={key}>
                     <p>{workout.name}</p>
                     <i>hrj</i>
