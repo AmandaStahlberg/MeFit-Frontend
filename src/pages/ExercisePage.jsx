@@ -3,6 +3,7 @@ import ExercisesModal from "../components/modals/ExerciseModal";
 import { ROLES } from "../const/roles";
 import keycloak from "../keycloak";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 export default function Exercise() {
     const [exercises, setExercises] = useState([]);
@@ -45,6 +46,7 @@ export default function Exercise() {
             },
         }).then((res) => {
             fetchExercises();
+            toast("Exercise was succefully deleted!");
         });
     };
     return (

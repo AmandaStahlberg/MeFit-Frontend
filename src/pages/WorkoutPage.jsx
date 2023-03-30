@@ -3,6 +3,7 @@ import Workouts from "../components/workouts/Workouts";
 import { ROLES } from "../const/roles";
 import keycloak from "../keycloak";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Workout() {
     const [workouts, setWorkouts] = useState([]);
@@ -45,6 +46,7 @@ export default function Workout() {
             },
         }).then((res) => {
             fetchWorkouts();
+            toast("Workout was succefully deleted!");
         });
     };
     return (
