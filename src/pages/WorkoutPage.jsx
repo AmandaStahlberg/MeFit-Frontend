@@ -33,7 +33,6 @@ export default function Workout() {
             .then((data) => {
                 setWorkouts(data);
                 setWorkoutsFetched(true);
-                console.log(data);
             })
             .catch((error) => console.error(error));
     };
