@@ -41,6 +41,6 @@ Start the application: npm start
 More information about how the application works can be found in the usermanual.pdf, which can be found in the project.
 
 ## Team
-Alexander Malmqvist
-Amanda Ståhlberg
+Alexander Malmqvist  
+Amanda Ståhlberg  
 Isabelle Ermeryd Tancred
