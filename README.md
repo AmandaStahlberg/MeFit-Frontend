@@ -14,7 +14,7 @@ This is a web application built using React that allows users to create workout 
 
 Clone the repository: git clone https://github.com/AmandaStahlberg/MeFit-Frontend.git
 Install dependencies: npm install
-To run the whole application you also need to set up the backend, which can be found here.
+To run the whole application you also need to set up the backend, which can be found [here](https://github.com/malmz90/Data_Persistence_and_Access.git) 
 
 ## Usage
 
@@ -22,20 +22,20 @@ Start the application: npm start
 
 ## Features
 ### User Authentication
--Users can sign up, log in, and log out.
--Admin users can manage other users' roles.
+- Users can sign up, log in, and log out.
+- Admin users can manage other users' roles.
 ### Goals
--Users can create workout goals.
--Goals have a start and end date.
--Goals can contain one or more programs.
+- Users can create workout goals.
+- Goals have a start and end date.
+- Goals can contain one or more programs.
 ### Programs
--Admin can create, edit, and delete workout programs.
--Programs can contain one or more workouts.
+- Admin can create, edit, and delete workout programs.
+- Programs can contain one or more workouts.
 ### Workouts
--Admin can create, edit, and delete workouts.
--Workouts can contain one or more exercises.
+- Admin can create, edit, and delete workouts.
+- Workouts can contain one or more exercises.
 ### Exercises
-Users can create, edit, and delete exercises.
+- Users can create, edit, and delete exercises.
 
 ## User manual
 More information about how the application works can be found in the usermanual.pdf, which can be found in the project.
