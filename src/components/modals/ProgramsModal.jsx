@@ -1,6 +1,7 @@
 import { Fragment, useRef, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import keycloak from "../../keycloak";
+import { toast } from "react-toastify";
 
 export default function ProgramsModal({ programs, setPrograms }) {
     const [open, setOpen] = useState(false);
@@ -50,8 +51,8 @@ export default function ProgramsModal({ programs, setPrograms }) {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log("progges22", programs);
                 setPrograms([...programs, data]);
+                toast("Program was succefully created!");
             })
             .catch((error) => console.error(error));
     };

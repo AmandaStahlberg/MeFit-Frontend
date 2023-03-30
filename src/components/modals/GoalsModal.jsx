@@ -2,6 +2,7 @@ import { Fragment, useRef, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import keycloak from "../../keycloak";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 export default function GoalsModal({ goals, setGoals }) {
     const [open, setOpen] = useState(false);
@@ -56,6 +57,7 @@ export default function GoalsModal({ goals, setGoals }) {
             .then((response) => response.json())
             .then((data) => {
                 setGoals([...goals, data]);
+                toast("Goal was succefully created!");
             })
             .catch((error) => console.error(error));
     };
