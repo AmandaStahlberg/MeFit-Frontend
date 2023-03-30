@@ -48,7 +48,7 @@ export default function RolesModal(props) {
         type="button"
         onClick={() => setOpen(true)}
       >
-        <PencilIcon className="h-6 w-6" />
+        <PencilIcon className="h-4 w-4" />
       </button>
 
       <Transition.Root show={open} as={Fragment}>

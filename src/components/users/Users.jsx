@@ -96,7 +96,7 @@ function Users() {
                     Actions
                   </span>
                   <button className="hover:text-red-600 pr-4">
-                    <TrashIcon className="h-6 w-6" />
+                    <TrashIcon className="h-4 w-4" />
                   </button>
                   <RolesModal user={user} setReload={setUsersFetched} />
                 </td>
