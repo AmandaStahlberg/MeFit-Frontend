@@ -3,7 +3,11 @@
 
 - [Background](#background)
 - [Install](#install)
-- [Usage](#install)
+- [Usage](#usage)
+- [Features](#features)
+- [Usermanual](#usermanual)
+- [Team](#team)
+
 
 
 ## Background
@@ -37,7 +41,7 @@ Start the application: npm start
 ### Exercises
 - Users can create, edit, and delete exercises.
 
-## User manual
+## Usermanual
 More information about how the application works can be found in the usermanual.pdf, which can be found in the project.
 
 ## Team
