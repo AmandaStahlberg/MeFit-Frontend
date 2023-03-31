@@ -12,7 +12,7 @@ function Exercises({ exercises, deleteExercise, setExercisesFetched }) {
         exercises.map((exercise, key) => (
           <li
             key={key}
-            className="flex justify-between text-gray-700 border-2 rounded-b-mb rounded-mb border-t-0  px-3 py-2 mb-4 text-sm font-medium"
+            className="flex justify-between text-gray-700 rounded-md border-2 rounded-b-md border-t-0 px-3 py-2 mb-4 text-sm font-medium"
           >
             <div className="text-left w-5/6">
               <p className="font-bold">{exercise.name}</p>
