@@ -71,7 +71,7 @@ export default function ProgramsModal({ programs, setPrograms }) {
             category: category.value,
             workoutIds: selectedWorkouts,
         };
-        console.log(program);
+
         addProgramToDb(program);
     }
 
@@ -92,7 +92,6 @@ export default function ProgramsModal({ programs, setPrograms }) {
             setSelectedWorkouts([...selectedWorkouts, program.workout_id]);
         }
     };
-    console.log(selectedWorkouts, "ute");
 
     return (
         <>
