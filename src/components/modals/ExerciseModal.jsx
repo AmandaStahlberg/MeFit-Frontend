@@ -1,6 +1,7 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import keycloak from "../../keycloak";
+import { toast } from "react-toastify";
 
 export default function ExercisesModal({ setExercises, exercises }) {
     const [open, setOpen] = useState(false);
@@ -29,6 +30,7 @@ export default function ExercisesModal({ setExercises, exercises }) {
             .then((response) => response.json())
             .then((data) => {
                 setExercises([...exercises, data]);
+                toast("Exercise was succefully created!");
             })
             .catch((error) => console.error(error));
     };

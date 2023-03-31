@@ -1,6 +1,7 @@
 import { Fragment, useRef, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import keycloak from "../../keycloak";
+import { toast } from "react-toastify";
 
 export default function WorkoutsModal({ workouts, setWorkouts }) {
     const [open, setOpen] = useState(false);
@@ -52,6 +53,7 @@ export default function WorkoutsModal({ workouts, setWorkouts }) {
             .then((response) => response.json())
             .then((data) => {
                 setWorkouts([...workouts, data]);
+                toast("Workout was succefully created!");
             })
             .catch((error) => console.error(error));
     };

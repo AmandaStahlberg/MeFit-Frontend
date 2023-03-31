@@ -1,112 +1,50 @@
-# React with Keycloak starter
-
-> ## NB: Remember to replace the contents of the `public/keycloak.json` file with your own Keycloak server configuration
-
+# Me Fit- a workout application
 ## Table of contents
 
 - [Background](#background)
 - [Install](#install)
-- [Usage](#install)
-- [Keycloak Configuration](#keycloak-configuration)
-- [Keycloak JavaScript Adapter](#keycloak-javascript-adapter)
-- [Axios Interceptor](#axios-interceptor)
-- [Custom Hooks](#custom-hooks)
-- [Dependencies](#dependencies)
-- [Authors](#authors)
-- [License](#license)
+- [Usage](#usage)
+- [Features](#features)
+- [Usermanual](#usermanual)
+- [Team](#team)
+
+
 
 ## Background
 
-This repository provides a starting point for candidates choosing to use React with Keycloak. The
+This is a web application built using React that allows users to create workout goals, in order motivate users and allow them to track and plan their workout progress. The application contains different programs, workouts and exercises. As an admin it's possible to manage programs, workouts, goals, and user roles. The project was the final examination task for Experis Academy.
 
 ## Install
 
-Using npm
-
-```sh
-npm install
-# Install the project dependencies
-```
+Clone the repository: git clone https://github.com/AmandaStahlberg/MeFit-Frontend.git
+Install dependencies: npm install
+To run the whole application you also need to set up the backend, which can be found [here](https://github.com/malmz90/Data_Persistence_and_Access.git) 
 
 ## Usage
 
-```sh
-npm start
-# Start the React server
-```
+Start the application: npm start
 
-## Keycloak Configuration
+## Features
+### User Authentication
+- Users can sign up, log in, and log out.
+- Admin users can manage other users' roles.
+### Goals
+- Users can create workout goals.
+- Goals have a start and end date.
+- Goals can contain one or more programs.
+### Programs
+- Admin can create, edit, and delete workout programs.
+- Programs can contain one or more workouts.
+### Workouts
+- Admin can create, edit, and delete workouts.
+- Workouts can contain one or more exercises.
+### Exercises
+- Users can create, edit, and delete exercises.
 
-After setting up your Keycloak server, you **must** copy the JSON configuration from the Admin panel. Replace the content in the `public/keycloak.json` file before you start.
+## Usermanual
+More information about how the application works can be found in the usermanual.pdf, which can be found in the project.
 
-![Keycloak Config](./keycloak-config.png)
-
-## Keycloak JavaScript Adapter
-
-The [keycloak-js](https://www.npmjs.com/package/keycloak-js) library exposes the [Keycloak JavaScript Adapter](https://github.com/keycloak/keycloak-documentation/blob/main/securing_apps/topics/oidc/javascript-adapter.adoc#javascript-adapter-reference) which provides properties and methods to manage the existing Keycloak session on the client. Follow the link to the [Keycloak documentation](https://github.com/keycloak/keycloak-documentation/blob/main/securing_apps/topics/oidc/javascript-adapter.adoc#javascript-adapter-reference) for more detail on the Adapter API.
-
-## Keycloak - Protected Routes (Roles)
-
-Keycloak provides the ability to setup roles for users. The KeycloakRoute Higher Order Component.
-
-```jsx
-/* File: src/App.jsx
- * Add a Protected Route using React Router 6.x */
-<Routes>
-    <Routes path="/profile" 
-        element={ 
-            <KeycloakRoute role="USER">
-                <ProfilePage />
-            </KeycloakRoute> 
-        }
-    />
-</Routes>
-```
-
-```jsx
-// File: routes/KeycloakRoute.jsx
-import { Navigate } from "react-router-dom";
-import keycloak from "../keycloak";
-
-function KeycloakRoute({ children, role, redirectTo = "/" }) {
-  
-  if (!keycloak.authenticated) {
-    return <Navigate replace to={redirectTo} />;
-  }
-
-  if (keycloak.hasRealmRole(role)) {
-    return <>{children}</>;
-  }
-
-  return <Navigate replace to={redirectTo} />;
-}
-
-export default KeycloakRoute;
-```
-
-## Axios Interceptor
-
-The custom [Axios request interceptor](https://axios-http.com/docs/interceptors) automatically attaches the existing Auth Token from the Keycloak library to every request as an Authorization header using the [Bearer Token](https://oauth.net/2/bearer-tokens/) pattern.
-
-## Custom hooks
-
-This project uses custom hooks to make code more re-usable. All hooks can be found in the `./src/hooks/` folder of the project.
-
-### `useProducts`
-
-Make an HTTP request using axios to a local server. Provides the products and an optional error message as properties on an object.
-
-> Note: The repository uses a mock server that does not exist. You should replace the URL with your own server's endpoint.
-
-## Dependencies
-
-- [keycloak-js](https://www.npmjs.com/package/keycloak-js)
-- [axios](https://github.com/axios/axios)
-
-## Authors
-
-- [@dewald-els](https://github.com/dewald-els)
-
-## License
-
-[MIT](./LICENSE.md)
+## Team
+Alexander Malmqvist  
+Amanda Ståhlberg  
+Isabelle Ermeryd Tancred
